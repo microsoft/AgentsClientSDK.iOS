@@ -24,36 +24,42 @@ You will need the following:
 
 ### Step 1: Include in build
 
-Include the MultimodalClientSDK.xcframework file as a dependency, along with the following
+Include the AgentsClientSDK.xcframework file as a dependency, along with the following
 dependencies
 
 ```
 MicrosoftCognitiveServicesSpeech.xcframework : https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/swift/ios/from-microphone#get-the-speech-sdk-for-ios
 MSAL.xcframework : https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.1.0/MSAL.zip
-MultmodalClientSDK.xcframework
+AgentsClientSDK.xcframework: https://github.com/microsoft/AgentsClientSDK.iOS/releases/
 ```
 
 ### Step 2: Import multimodal classes in your main activity
 
 ``` 
-import MultimodalClientSDK
+import AgentsClientSDK
 ```
 
 ### Step 3: Connection to SDK is initialized like so
 
 ``` 
-@StateObject var viewModel = MultimodalClientSdk.shared
-let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-if let rootViewController = windowScene?.windows.first?.rootViewController {
-    viewModel.initSDK(
-        viewController: rootViewController,
-        sdkConfigs: SDKConfigs(
-            tokenUrl: "TokenURL",
-            speechSubscriptionKey: "SUBSCRIPTION_KEY",
-            speechServiceRegion: "SUBSCRIPTION_REGION"
+    @StateObject var viewModel = MultimodalClientSdk.shared
+
+    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
+    if let rootViewController = windowScene?.windows.first?.rootViewController {
+        viewModel.initSDK(
+            viewController: rootViewController,
+            sdkConfigs: SDKConfigs(
+                speechSubscriptionKey: "SUBSCRIPTION_KEY",
+                speechServiceRegion: "SUBSCRIPTION_REGION",
+                settings: Settings(
+                    environmentId: "environmentName",
+                    schemaName: "schemaName",
+                    tenantId: "tenantId"
+                )
+            )
         )
-    )
-}
+    }
+
 ```
 
 ### Step 4: Chat window for viewing text

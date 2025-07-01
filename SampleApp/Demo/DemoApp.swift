@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-import MultimodalClientSDK
 
 @main
 struct DemoApp: App {

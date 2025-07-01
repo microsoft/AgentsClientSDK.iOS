@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import MultimodalClientSDK
+import AgentsClientSDK
 //import AdaptiveCards
 import SafariServices
 import Combine
@@ -167,9 +167,13 @@ struct ContentView: View {
                                     viewModel.initSDK(
                                         viewController: rootViewController,
                                         sdkConfigs: SDKConfigs(
-                                            tokenUrl: "",
-                                            authConfigs: token,
-                                            expiresOn: expiresOn
+                                            token: token,
+                                            expiresOn: expiresOn,
+                                            settings: Settings(
+                                                environmentId: initialUrl,
+                                                schemaName: schemaName,
+                                                tenantId: "tenantId"
+                                            )
                                         )
                                     )
                                 }
@@ -179,23 +183,19 @@ struct ContentView: View {
                         showSignInSheet = true
                     }
                 } else{
-                    let trimmedInitialUrl = initialUrl.trimmingCharacters(in: .whitespacesAndNewlines)
-                    let trimmedSchemaName = schemaName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    if (trimmedInitialUrl.lowercased().contains("na") || trimmedSchemaName.lowercased().contains("na")){
-                        urlText = "DEFAULT_TOKEN_URL"
-                    }
-                    let tokenUrl = "\(trimmedInitialUrl)/powervirtualagents/botsbyschema/\(trimmedSchemaName)/directline/token?api-version=2022-03-01-preview"
-                     
                     // directline window
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     if let rootViewController = windowScene?.windows.first?.rootViewController {
                         viewModel.initSDK(
                             viewController: rootViewController,
                             sdkConfigs: SDKConfigs(
-                                tokenUrl: urlText.trimmingCharacters(in: .whitespacesAndNewlines).lowercased().contains("token")
-                                ? urlText : tokenUrl,
                                 speechSubscriptionKey: "SUBSCRIPTION_KEY",
-                                speechServiceRegion: "SUBSCRIPTION_REGION"
+                                speechServiceRegion: "SUBSCRIPTION_REGION",
+                                settings: Settings(
+                                    environmentId: initialUrl,
+                                    schemaName: schemaName,
+                                    tenantId: "tenantId"
+                                )
                             )
                         )
                     }
@@ -220,9 +220,13 @@ struct ContentView: View {
                                 viewModel.initSDK(
                                     viewController: rootViewController,
                                     sdkConfigs: SDKConfigs(
-                                        tokenUrl: "",
-                                        authConfigs: token,
-                                        expiresOn: expiresOn
+                                        token: token,
+                                        expiresOn: expiresOn,
+                                        settings: Settings(
+                                            environmentId: initialUrl,
+                                            schemaName: schemaName,
+                                            tenantId: "tenantId"
+                                        )
                                     )
                                 )
                             }
