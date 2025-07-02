@@ -1,13 +1,13 @@
 //
-//  DemoUITestsLaunchTests.swift
-//  DemoUITests
+//  TextClientAppUITestsLaunchTests.swift
+//  TextClientAppUITests
 //
-//  Created by Riddhi Tharewal on 14/04/25.
+//  Created by Riddhi Tharewal on 02/07/25.
 //
 
 import XCTest
 
-final class DemoUITestsLaunchTests: XCTestCase {
+final class TextClientAppUITestsLaunchTests: XCTestCase {
 
     override class var runsForEachTargetApplicationUIConfiguration: Bool {
         true

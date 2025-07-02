@@ -1,13 +1,13 @@
 //
-//  DemoUITests.swift
-//  DemoUITests
+//  TextClientAppUITests.swift
+//  TextClientAppUITests
 //
-//  Created by Riddhi Tharewal on 14/04/25.
+//  Created by Riddhi Tharewal on 02/07/25.
 //
 
 import XCTest
 
-final class DemoUITests: XCTestCase {
+final class TextClientAppUITests: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.

@@ -1,0 +1,15 @@
+{
+  "user": {
+    "environmentId": "your-environment-id",
+    "schemaName": "your-schema-name", 
+    "environment": "production",
+    "authenticated": {
+      "clientId": "your-client-id",
+      "tenantId": "your-tenant-id"
+    }
+  },
+  "speech": {
+    "speechSubscriptionKey": "your-speech-subscription-key",
+    "speechServiceRegion": "your-speech-service-region"
+  }
+}

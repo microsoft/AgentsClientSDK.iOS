@@ -1,15 +1,14 @@
 //
-//  DemoApp.swift
-//  Demo
+//  TextClientAppApp.swift
+//  TextClientApp
 //
-//  Created by Riddhi Tharewal on 14/04/25.
+//  Created by Riddhi Tharewal on 02/07/25.
 //
 
 import SwiftUI
 
 @main
-struct DemoApp: App {
-    
+struct TextClientAppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()

@@ -21,6 +21,8 @@ You will need the following:
 
 1. Bot schema name
 2. Environment Id
+3. tenant Id
+4. environment
 
 ### Step 1: Include in build
 
@@ -28,7 +30,7 @@ Include the AgentsClientSDK.xcframework file as a dependency, along with the fol
 dependencies
 
 ```
-MicrosoftCognitiveServicesSpeech.xcframework : https://github.com/Azure-Samples/cognitive-services-speech-sdk/tree/master/quickstart/swift/ios/from-microphone#get-the-speech-sdk-for-ios
+
 MSAL.xcframework : https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.1.0/MSAL.zip
 AgentsClientSDK.xcframework: https://github.com/microsoft/AgentsClientSDK.iOS/releases/
 ```
@@ -48,16 +50,30 @@ import AgentsClientSDK
     if let rootViewController = windowScene?.windows.first?.rootViewController {
         viewModel.initSDK(
             viewController: rootViewController,
-            sdkConfigs: SDKConfigs(
-                speechSubscriptionKey: "SUBSCRIPTION_KEY",
-                speechServiceRegion: "SUBSCRIPTION_REGION",
-                settings: Settings(
-                    environmentId: "environmentName",
-                    schemaName: "schemaName",
-                    tenantId: "tenantId"
-                )
-            )
+            appSettings: self.appSettings!
         )
+    }
+
+```
+
+### Step 4: Add this function to load config.json to AppSettings
+
+``` 
+        // Function to load AppSettings from config.json
+    private func loadAppSettings() -> AppSettings? {
+        guard let url = Bundle.main.url(forResource: "config", withExtension: "json") else {
+            print("Could not find config.json file in bundle")
+            return nil
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
+            return appSettings
+        } catch {
+            print("Error loading or parsing config.json: \(error)")
+            return nil
+        }
     }
 
 ```

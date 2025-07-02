@@ -24,38 +24,31 @@ struct ContentView: View {
     @State private var schemaName: String = ""
     @State private var initialUrl: String = ""
     private var isdte  : Bool = false
+    @State private var appSettings: AppSettings? = nil
+    
+    
+    // Function to load AppSettings from config.json
+    private func loadAppSettings() -> AppSettings? {
+        guard let url = Bundle.main.url(forResource: "config", withExtension: "json") else {
+            print("Could not find config.json file in bundle")
+            return nil
+        }
+        
+        do {
+            let data = try Data(contentsOf: url)
+            let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
+            return appSettings
+        } catch {
+            print("Error loading or parsing config.json: \(error)")
+            return nil
+        }
+    }
+    
     var body: some View {
         ZStack {
             //if url is empty
-            if !urlConfirmed {
-                VStack(spacing: 20) {
-                    Text("Agent Configuration")
-                        .font(.headline)
-                    TextField("Enter the Agent schema name/NA", text: $schemaName)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                    TextField("Enter the Environment Name/NA", text: $initialUrl)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.horizontal)
-                    Button(action: {
-                        urlConfirmed = true
-                    }) {
-                        Text("Proceed")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal)
-                            .padding(.vertical, 10)
-                            .background(
-                                (initialUrl.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || schemaName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                                ? Color.gray.opacity(0.4)
-                                : Color.gray
-                            )
-                            .cornerRadius(10)
-                    }
-                    .disabled(initialUrl.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || schemaName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
-                }
-                .padding()
-            } else {
+            if urlConfirmed {
+                
                 //main app window
                 // Background image
                 Image("appbackground") // Replace with your image asset name
@@ -141,8 +134,12 @@ struct ContentView: View {
         }
         .onAppear {
             // Do nothing here
-            if isdte {
+            do{
+                try self.appSettings = loadAppSettings()
                 urlConfirmed = true
+            }
+            catch{
+                print("There is error loading json")
             }
         }
         
@@ -153,8 +150,8 @@ struct ContentView: View {
                 //if isdte flag is on
                 if(isdte){
                     viewModel.configureMSAL(
-                        clientId: "ClientId",
-                        authority: "AuthorityId"
+                        clientId: "ClientID",
+                        authority: "https://login.microsoftonline.com/common"
                     )
                     if let account = msalAccount {
                         viewModel.acquireTokenSilently(
@@ -166,14 +163,10 @@ struct ContentView: View {
                                 if let rootViewController = windowScene?.windows.first?.rootViewController {
                                     viewModel.initSDK(
                                         viewController: rootViewController,
-                                        sdkConfigs: SDKConfigs(
+                                        appSettings: self.appSettings!,
+                                        authToken: AuthToken(
                                             token: token,
-                                            expiresOn: expiresOn,
-                                            settings: Settings(
-                                                environmentId: initialUrl,
-                                                schemaName: schemaName,
-                                                tenantId: "tenantId"
-                                            )
+                                            expiresOn: expiresOn
                                         )
                                     )
                                 }
@@ -183,20 +176,13 @@ struct ContentView: View {
                         showSignInSheet = true
                     }
                 } else{
+                   
                     // directline window
                     let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                     if let rootViewController = windowScene?.windows.first?.rootViewController {
                         viewModel.initSDK(
                             viewController: rootViewController,
-                            sdkConfigs: SDKConfigs(
-                                speechSubscriptionKey: "SUBSCRIPTION_KEY",
-                                speechServiceRegion: "SUBSCRIPTION_REGION",
-                                settings: Settings(
-                                    environmentId: initialUrl,
-                                    schemaName: schemaName,
-                                    tenantId: "tenantId"
-                                )
-                            )
+                            appSettings: self.appSettings!
                         )
                     }
                 }
@@ -219,14 +205,10 @@ struct ContentView: View {
                             if let rootViewController = windowScene?.windows.first?.rootViewController {
                                 viewModel.initSDK(
                                     viewController: rootViewController,
-                                    sdkConfigs: SDKConfigs(
+                                    appSettings: self.appSettings!,
+                                    authToken: AuthToken(
                                         token: token,
-                                        expiresOn: expiresOn,
-                                        settings: Settings(
-                                            environmentId: initialUrl,
-                                            schemaName: schemaName,
-                                            tenantId: "tenantId"
-                                        )
+                                        expiresOn: expiresOn
                                     )
                                 )
                             }

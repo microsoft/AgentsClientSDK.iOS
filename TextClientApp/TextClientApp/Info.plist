@@ -12,9 +12,7 @@
 			<key>CFBundleURLName</key>
 			<string>scheme</string>
 			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>msauth.VarunDirectLine.Example</string>
-			</array>
+			<array/>
 		</dict>
 		<dict>
 			<key>CFBundleTypeRole</key>
