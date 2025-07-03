@@ -13,8 +13,7 @@ Follow along to add the iOS SDK to your app for multimodal agent interactions.
 
 ## Getting started with iOS
 
-This tutorial will help you connect with an agent created in Copilot Studio and published to custom
-website or mobile app, without authentication.
+This tutorial will help you connect with an agent created and published in Copilot Studio without authentication.
 The SDK connects to agents using Directline protocol, which enables anonymous text based agent
 interactions through websockets.
 You will need the following:
@@ -23,9 +22,11 @@ You will need the following:
 2. Environment Id
 3. environment
 
-#### Requirements
+#### Target device supported 
 
 - iOS 14.0+
+
+#### Dev Env Prerequisites
 - Xcode 12.0+
 - Swift 5.0+
 
@@ -34,6 +35,11 @@ You will need the following:
 This SDK is built entirely in **Swift** and distributed as an **XCFramework**
 
 #### XCFramework Structure
+
+
+XCFramework is Apple's binary distribution format that packages multiple architectures (iOS, macOS, simulator, etc.) into a single bundle for easier library distribution and consumption across different platforms. AgentsClientSDK supports only iOS devices and iOS simulators 
+
+
 ```
 AgentsClientSDK.xcframework/
 ├── ios-arm64/              # Physical iOS devices
@@ -58,7 +64,7 @@ Initialize the SDK with required parameters.
 ##### `sendMessage(text:) async`
 Send a text message to the bot asynchronously.
 
-#### Authentication Methods
+#### Authentication Methods : This is the authenticated end user scenario. Support will be added in later versions.
 
 ##### `configureMSAL(clientId:authority:)`
 Configure MSAL for authentication.
@@ -80,12 +86,7 @@ Acquire token silently for existing accounts.
 
 ### Step 1: Include in build
 
-Include the AgentsClientSDK.xcframework file as a dependency, along with the following
-dependencies
-
-```
-MSAL.xcframework : https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.1.0/MSAL.zip
-```
+Include the AgentsClientSDK.xcframework file as a dependency.
 
 ### Step 2: Import multimodal classes in your main activity
 
@@ -97,14 +98,11 @@ import AgentsClientSDK
 
 ``` 
     @StateObject var viewModel = MultimodalClientSdk.shared
-
-    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-    if let rootViewController = windowScene?.windows.first?.rootViewController {
-        viewModel.initSDK(
-            viewController: rootViewController,
-            appSettings: self.appSettings!
-        )
-    }
+    
+    viewModel.initSDK(
+        appSettings: self.appSettings!
+    )
+    
 
 ```
 
