@@ -10,19 +10,12 @@ import AgentsClientSDK
 //import AdaptiveCards
 import SafariServices
 import Combine
-import MSAL
 
 // contentview
 struct ContentView: View {
     @StateObject var viewModel = MultimodalClientSdk.shared
     @State private var showChat = false
-    @State private var urlText: String = ""
     @State private var urlConfirmed: Bool = false
-    @State private var showSignInSheet = false
-    @State private var msalAccount: MSALAccount? = nil
-    @State private var schemaName: String = ""
-    @State private var initialUrl: String = ""
-    private var isdte  : Bool = false
     @State private var appSettings: AppSettings? = nil
     
     
@@ -120,7 +113,7 @@ struct ContentView: View {
                         }
                         .padding(.bottom, 50)
                         .padding(.trailing, 12)
-
+                        
                         //  .zIndex(0)
                         
                     }
@@ -142,74 +135,12 @@ struct ContentView: View {
         // if urlconfirmed is true
         .onChange(of: urlConfirmed) { confirmed in
             if confirmed {
-                
-                //if isdte flag is on
-                if(isdte){
-                    viewModel.configureMSAL(
-                        clientId: "ClientID",
-                        authority: "https://login.microsoftonline.com/common"
-                    )
-                    if let account = msalAccount {
-                        viewModel.acquireTokenSilently(
-                            account: account,
-                            showSignIn: { showSignInSheet = true },
-                            initSDKWithToken: { token, expiresOn in
-                                // Use the token as needed
-                                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                                if let rootViewController = windowScene?.windows.first?.rootViewController {
-                                    viewModel.initSDK(
-                                        viewController: rootViewController,
-                                        appSettings: self.appSettings!,
-                                        authToken: AuthToken(
-                                            token: token,
-                                            expiresOn: expiresOn
-                                        )
-                                    )
-                                }
-                            }
-                        )
-                    } else {
-                        showSignInSheet = true
-                    }
-                } else{
-                   
-                    // directline window
-                    let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                    if let rootViewController = windowScene?.windows.first?.rootViewController {
-                        viewModel.initSDK(
-                            viewController: rootViewController,
-                            appSettings: self.appSettings!
-                        )
-                    }
-                }
-            }
-        }
-        
-        // show sign in page if showSigninsheet is true
-        .sheet(isPresented: $showSignInSheet) {
-            SignInView {
-                // Interactive sign-in
+                // directline window
                 let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
                 if let rootViewController = windowScene?.windows.first?.rootViewController {
-                    
-                    viewModel.signIn(
-                        presentingViewController: rootViewController,
-                        showSignIn: { showSignInSheet = true },
-                        initSDKWithToken: { token, expiresOn in
-                            // Use the token as needed
-                            let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                            if let rootViewController = windowScene?.windows.first?.rootViewController {
-                                viewModel.initSDK(
-                                    viewController: rootViewController,
-                                    appSettings: self.appSettings!,
-                                    authToken: AuthToken(
-                                        token: token,
-                                        expiresOn: expiresOn
-                                    )
-                                )
-                            }
-                            showSignInSheet = false
-                        }
+                    viewModel.initSDK(
+                        viewController: rootViewController,
+                        appSettings: self.appSettings!
                     )
                 }
             }
@@ -416,8 +347,8 @@ struct ChatView: View {
                 //                    .transition(.opacity)
                 //                }
             }
-           
-
+            
+            
             if !viewModel.userToken.isEmpty {
                 HStack {
                     TextField("Type a message", text: $viewModel.userMessage)
@@ -447,38 +378,6 @@ struct ChatView: View {
         .background(Color.white)
         .cornerRadius(12)
         .padding()
-    }
-}
-
-struct SignInView: View {
-    var signIn: () -> Void
-    
-    var body: some View {
-        ZStack {
-            Color(.systemBackground)
-                .ignoresSafeArea()
-            VStack {
-                Spacer()
-                Text("Sign in to Microsoft to continue")
-                    .font(.title2)
-                    .multilineTextAlignment(.center)
-                    .padding(.horizontal)
-                Spacer().frame(height: 24)
-                Button(action: {
-                    signIn()
-                }) {
-                    Text("Sign in")
-                        .font(.headline)
-                        .padding(.horizontal, 32)
-                        .padding(.vertical, 12)
-                        .background(Color.blue)
-                        .foregroundColor(.white)
-                        .cornerRadius(8)
-                }
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-        }
     }
 }
 

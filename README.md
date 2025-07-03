@@ -21,10 +21,9 @@ You will need the following:
 
 1. Bot schema name
 2. Environment Id
-3. tenant Id
-4. environment
+3. environment
 
-## Requirements
+#### Requirements
 
 - iOS 14.0+
 - Xcode 12.0+
@@ -42,7 +41,7 @@ AgentsClientSDK.xcframework/
 └── Info.plist             # Framework metadata
 ```
 
-### XCFramework Integration 
+#### XCFramework Integration 
 
 1. Download the `AgentsClientSDK.xcframework` from https://github.com/microsoft/AgentsClientSDK.iOS/releases/
 2. Drag it into your Xcode project
@@ -58,6 +57,17 @@ Initialize the SDK with required parameters.
 
 ##### `sendMessage(text:) async`
 Send a text message to the bot asynchronously.
+
+#### Authentication Methods
+
+##### `configureMSAL(clientId:authority:)`
+Configure MSAL for authentication.
+
+##### `signIn(presentingViewController:showSignIn:initSDKWithToken:)`
+Perform interactive sign-in.
+
+##### `acquireTokenSilently(account:showSignIn:initSDKWithToken:)`
+Acquire token silently for existing accounts.
 
 ### Available Properties
 
@@ -128,7 +138,7 @@ import AgentsClientSDK
 
 This is the primary storage for chat messages that automatically updates SwiftUI views when modified. It's declared as a `@Published` property, making it observable by SwiftUI components.
 
-### ChatMessage
+#### ChatMessage
 
 ```swift
 public struct ChatMessage: Identifiable {
