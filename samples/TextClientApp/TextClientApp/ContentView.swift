@@ -18,7 +18,6 @@ struct ContentView: View {
     @State private var showChat = false
     @State private var urlText: String = ""
     @State private var urlConfirmed: Bool = false
-    @State private var micEnabled: Bool = false // <-- Add this line
     @State private var showSignInSheet = false
     @State private var msalAccount: MSALAccount? = nil
     @State private var schemaName: String = ""
@@ -27,10 +26,10 @@ struct ContentView: View {
     @State private var appSettings: AppSettings? = nil
     
     
-    // Function to load AppSettings from config.json
+    // Function to load AppSettings from appsettings.json
     private func loadAppSettings() -> AppSettings? {
-        guard let url = Bundle.main.url(forResource: "config", withExtension: "json") else {
-            print("Could not find config.json file in bundle")
+        guard let url = Bundle.main.url(forResource: "appsettings", withExtension: "json") else {
+            print("Could not find appsettings.json file in bundle")
             return nil
         }
         
@@ -39,7 +38,7 @@ struct ContentView: View {
             let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
             return appSettings
         } catch {
-            print("Error loading or parsing config.json: \(error)")
+            print("Error loading or parsing appsettings.json: \(error)")
             return nil
         }
     }
@@ -59,14 +58,14 @@ struct ContentView: View {
                 ZStack(alignment: .top) {
                     // Welcome text at the top
                     VStack(alignment: .leading, spacing: 0) {
-                        Text("Welcome to the Sample app")
+                        Text("Welcome to the TextClientApp")
                             .font(.title)
                             .foregroundColor(.white)
                             .padding(.top, 60)
                             .padding(.horizontal)
                             .frame(maxWidth: .infinity, alignment: .leading)
                         
-                        Text("This app uses the Multimodal client SDK, enabling you to explore its diverse features through both text and voice interactions.")
+                        Text("This app uses the AgentsClientSDK, enabling you to explore its multimodal features.")
                             .foregroundColor(.white)
                             .padding(.top, 7)
                             .padding(.horizontal)
@@ -78,7 +77,7 @@ struct ContentView: View {
                         ZStack {
                             Color.black.opacity(0.3)
                                 .ignoresSafeArea()
-                            ChatView(viewModel: viewModel, showChat: $showChat, micEnabled: $micEnabled)
+                            ChatView(viewModel: viewModel, showChat: $showChat)
                                 .frame(
                                     width: UIScreen.main.bounds.width * 0.9,
                                     height: min(UIScreen.main.bounds.height * 0.65, 500) // 500 or any max height you want
@@ -98,10 +97,7 @@ struct ContentView: View {
                         HStack(spacing: 0){
                             Spacer()
                             HStack(spacing: 0) {
-                                ChatToggleButton(showChat: $showChat, viewModel: viewModel, micEnabled: $micEnabled)
-                                if viewModel.isMicEnabled && micEnabled {
-                                    MicrophoneButton(viewModel: viewModel)
-                                }
+                                ChatToggleButton(showChat: $showChat, viewModel: viewModel)
                             }
                             .padding()
                             .padding(.vertical, 6)
@@ -221,73 +217,11 @@ struct ContentView: View {
     }
 }
 
-struct MicToggleButton: View {
-    @Binding var micEnabled: Bool
-    var body: some View {
-        HStack {
-            Toggle("", isOn: $micEnabled)
-                .labelsHidden()
-                .padding(.trailing, 5)
-            Text(micEnabled ? "Disable Speech Service" : "Enable Speech Service")
-        }
-        .padding(.vertical, 8)
-        .padding(.horizontal, 16)
-        .cornerRadius(16)
-        .shadow(color: .gray.opacity(0.2), radius: 4, x: 0, y: 2)
-    }
-}
 
-
-struct MicrophoneButton: View {
-    @ObservedObject var viewModel: MultimodalClientSdk
-    @State private var recognizedText: String = ""
-    var body: some View {
-        Button(action: {
-            if viewModel.isMicrophoneActive {
-                viewModel.stopContinuousListening()
-                viewModel.isMicrophoneActive = false
-            } else {
-                viewModel.isMicrophoneActive = true
-                viewModel.registerForContinuousListening(
-                    onRecognizing : { recognizedText in
-                        self.recognizedText = recognizedText
-                    }
-                    ,
-                    onRecognized: { recognizedText in
-                        print("onRecognized: \(recognizedText)")
-                        self.recognizedText = recognizedText
-                        
-                        
-                        if !recognizedText.isEmpty {
-                            let text = recognizedText
-                            self.recognizedText = ""
-                            Task {
-                                await viewModel.sendMessage(text: text)
-                                viewModel.isBotResponding = true
-                                
-                            }
-                        }
-                    })
-            }
-        }) {
-            Image(systemName: viewModel.isMicrophoneActive ? "mic.fill" : "mic")
-                .foregroundColor(viewModel.isMicrophoneActive ? .red : .blue)
-                .font(.title)
-                .frame(width: 40, height: 40)
-            //.padding()
-                .background(Color.white)
-                .clipShape(Circle())
-        }
-        // .disabled(!(viewModel.isMicEnabled )
-        .padding(.trailing, 8)
-        //  .padding(.bottom, 40)
-    }
-}
 
 struct ChatToggleButton: View {
     @Binding var showChat: Bool
     @ObservedObject var viewModel: MultimodalClientSdk
-    @Binding var micEnabled : Bool
     var body: some View {
         Button(action: {
             withAnimation {
@@ -298,7 +232,7 @@ struct ChatToggleButton: View {
                 .foregroundColor(viewModel.iskeyboardActive ? .red : .blue)
                 .font(.title)
                 .frame(width: 40, height: 40)
-                .padding(.trailing, viewModel.isMicEnabled && micEnabled ? 10 : 0)
+                .padding(.trailing, 0)
                 .background(Color.white)
                 .clipShape(Circle())
         }
@@ -454,7 +388,6 @@ struct ChatView: View {
     @ObservedObject var viewModel: MultimodalClientSdk
     @Binding var showChat: Bool
     @State private var recognizedText: String = ""
-    @Binding var micEnabled: Bool
     
     var body: some View {
         VStack {
@@ -508,9 +441,6 @@ struct ChatView: View {
                             .cornerRadius(10)
                     }
                     .disabled(viewModel.userMessage.isEmpty)
-                    if(viewModel.isMicEnabled && micEnabled){
-                        MicrophoneButton(viewModel: viewModel)
-                    }
                 }
             }
         }

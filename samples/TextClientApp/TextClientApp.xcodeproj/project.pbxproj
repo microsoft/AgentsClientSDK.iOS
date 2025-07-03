@@ -6,11 +6,6 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		2E2B14002E158322002A9C64 /* AgentsClientSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2E2B13FF2E158322002A9C64 /* AgentsClientSDK */; };
-		2E2B14012E158322002A9C64 /* AgentsClientSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2E2B13FF2E158322002A9C64 /* AgentsClientSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
-/* End PBXBuildFile section */
-
 /* Begin PBXContainerItemProxy section */
 		2E3A3A5C2E15770B00D5400F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -35,7 +30,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				2E2B14012E158322002A9C64 /* AgentsClientSDK in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -84,7 +78,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2E2B14002E158322002A9C64 /* AgentsClientSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,7 +147,6 @@
 			);
 			name = TextClientApp;
 			packageProductDependencies = (
-				2E2B13FF2E158322002A9C64 /* AgentsClientSDK */,
 			);
 			productName = SampleApp;
 			productReference = 2E3A3A4B2E15770A00D5400F /* TextClientApp.app */;
@@ -239,7 +231,6 @@
 			mainGroup = 2E3A3A422E15770A00D5400F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				2E2B13FE2E158314002A9C64 /* XCLocalSwiftPackageReference "../AgentsClientSDK" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2E3A3A4C2E15770A00D5400F /* Products */;
@@ -606,21 +597,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		2E2B13FE2E158314002A9C64 /* XCLocalSwiftPackageReference "../AgentsClientSDK" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../AgentsClientSDK;
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		2E2B13FF2E158322002A9C64 /* AgentsClientSDK */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 2E2B13FE2E158314002A9C64 /* XCLocalSwiftPackageReference "../AgentsClientSDK" */;
-			productName = AgentsClientSDK;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E3A3A432E15770A00D5400F /* Project object */;
 }

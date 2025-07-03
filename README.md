@@ -24,15 +24,57 @@ You will need the following:
 3. tenant Id
 4. environment
 
+## Requirements
+
+- iOS 14.0+
+- Xcode 12.0+
+- Swift 5.0+
+
+#### Swift Language & XCFramework
+
+This SDK is built entirely in **Swift** and distributed as an **XCFramework**
+
+#### XCFramework Structure
+```
+AgentsClientSDK.xcframework/
+├── ios-arm64/              # Physical iOS devices
+├── ios-arm64_x86_64-simulator/  # iOS Simulator
+└── Info.plist             # Framework metadata
+```
+
+### XCFramework Integration 
+
+1. Download the `AgentsClientSDK.xcframework` from https://github.com/microsoft/AgentsClientSDK.iOS/releases/
+2. Drag it into your Xcode project
+3. Add to "Frameworks, Libraries, and Embedded Content"
+4. Set to "Embed & Sign"
+
+### API Reference
+
+#### Core Methods
+
+##### `initSDK(viewController:appSettings:authToken:)`
+Initialize the SDK with required parameters.
+
+##### `sendMessage(text:) async`
+Send a text message to the bot asynchronously.
+
+### Available Properties
+
+##### Published Properties (Observable)
+
+- `userMessage: String` - Current user input message
+- `userToken: String` - Current authentication token
+- `messages: [ChatMessage]` - Array of chat messages
+- `isBotResponding: Bool` - Whether bot is currently responding
+
 ### Step 1: Include in build
 
 Include the AgentsClientSDK.xcframework file as a dependency, along with the following
 dependencies
 
 ```
-
 MSAL.xcframework : https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.1.0/MSAL.zip
-AgentsClientSDK.xcframework: https://github.com/microsoft/AgentsClientSDK.iOS/releases/
 ```
 
 ### Step 2: Import multimodal classes in your main activity
@@ -56,13 +98,13 @@ import AgentsClientSDK
 
 ```
 
-### Step 4: Add this function to load config.json to AppSettings
+### Step 4: Add this function to load appsettings.json to AppSettings
 
 ``` 
-        // Function to load AppSettings from config.json
+        // Function to load AppSettings from appsettings.json
     private func loadAppSettings() -> AppSettings? {
-        guard let url = Bundle.main.url(forResource: "config", withExtension: "json") else {
-            print("Could not find config.json file in bundle")
+        guard let url = Bundle.main.url(forResource: "appsettings", withExtension: "json") else {
+            print("Could not find appsettings.json file in bundle")
             return nil
         }
         
@@ -71,28 +113,64 @@ import AgentsClientSDK
             let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
             return appSettings
         } catch {
-            print("Error loading or parsing config.json: \(error)")
+            print("Error loading or parsing appsettings.json: \(error)")
             return nil
         }
     }
 
 ```
 
-### Step 4: Chat window for viewing text
+### Step 4: Chat window for Rendering message
+#### Published Messages Array within Sdk
+```swift
+@Published public var messages: [ChatMessage] = []
+```
 
-Your users can see the text version of the exchange.
-To list messages. They are stored in messages.
-Can be accessed as in viewModel.messages
+This is the primary storage for chat messages that automatically updates SwiftUI views when modified. It's declared as a `@Published` property, making it observable by SwiftUI components.
 
+### ChatMessage
 
-### Step 5: Send Message
-Below is example on how you can send message to bot
+```swift
+public struct ChatMessage: Identifiable {
+    public let id: UUID
+    public let text: String?
+    public let sender: String
+    public let imageUrl: String?
+    public let customView: UIView?
+    public let suggestedActions: [String]?
+}
+```
+#### SwiftUI Integration
+```swift
+struct ChatView: View {
+    @StateObject private var viewModel = MultimodalClientSdk.shared
+    
+    var body: some View {
+        // Automatically updates when messages change
+        ForEach(viewModel.messages) { message in
+            MessageRow(message: message)
+        }
+    }
+}
+```
 
-await viewModel.sendMessage(text: viewModel.userMessage)
+### Step 5. Send Messages
+
+```swift
+// Send a text message to the bot
+await viewModel.sendMessage(text: "Hello, how can you help me?")
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Bot communication issues**: Verify network connectivity and app settings.
+
 
 
 Thats the essence of it.
-The Sample Application in samples folder of this repository provides a complete implementation. Do
+The TextClientApp in samples folder of this repository provides a complete implementation. Do
 check it out.
 
 ## Contributing
