@@ -23,19 +23,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		2E3A3A8C2E1577EE00D5400F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		2E3A3A4B2E15770A00D5400F /* TextClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E3A3A5B2E15770B00D5400F /* TextClientAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextClientAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -136,7 +123,6 @@
 				2E3A3A472E15770A00D5400F /* Sources */,
 				2E3A3A482E15770A00D5400F /* Frameworks */,
 				2E3A3A492E15770A00D5400F /* Resources */,
-				2E3A3A8C2E1577EE00D5400F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);

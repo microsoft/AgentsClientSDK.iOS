@@ -136,13 +136,9 @@ struct ContentView: View {
         .onChange(of: urlConfirmed) { confirmed in
             if confirmed {
                 // directline window
-                let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene
-                if let rootViewController = windowScene?.windows.first?.rootViewController {
-                    viewModel.initSDK(
-                        viewController: rootViewController,
-                        appSettings: self.appSettings!
-                    )
-                }
+                viewModel.initSDK(
+                    appSettings: self.appSettings!
+                )
             }
         }
     }
