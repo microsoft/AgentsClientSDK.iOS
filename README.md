@@ -22,6 +22,8 @@ You will need the following:
 2. Environment Id
 3. environment
 
+To ensure a smooth and successful integration of the SDK with your application, please make sure your development environment meets the following prerequisites.
+
 #### Target device supported 
 
 - iOS 14.0+
@@ -58,7 +60,7 @@ AgentsClientSDK.xcframework/
 
 #### Core Methods
 
-##### `initSDK(viewController:appSettings:authToken:)`
+##### `initSDK(appSettings:)`
 Initialize the SDK with required parameters.
 
 ##### `sendMessage(text:) async`
@@ -66,14 +68,8 @@ Send a text message to the bot asynchronously.
 
 #### Authentication Methods : This is the authenticated end user scenario. Support will be added in later versions.
 
-##### `configureMSAL(clientId:authority:)`
-Configure MSAL for authentication.
-
-##### `signIn(presentingViewController:showSignIn:initSDKWithToken:)`
+##### `signIn(presentingViewController:showSignIn:)`
 Perform interactive sign-in.
-
-##### `acquireTokenSilently(account:showSignIn:initSDKWithToken:)`
-Acquire token silently for existing accounts.
 
 ### Available Properties
 
@@ -84,51 +80,81 @@ Acquire token silently for existing accounts.
 - `messages: [ChatMessage]` - Array of chat messages
 - `isBotResponding: Bool` - Whether bot is currently responding
 
+### Once you have created a new application or project in XCode, follow these steps to add the AgentsClientSDK to your project.
+
 ### Step 1: Include in build
 
 Include the AgentsClientSDK.xcframework file as a dependency.
 
-### Step 2: Import multimodal classes in your main activity
+### Step 2: Import AgentsClientSDK classes in your ContentView
+In this step, you import the AgentsClientSDK into your ContentView. This allows your application to access the SDK’s core functionality and configuration models, enabling you to initialize and interact with the SDK in your app’s code. Proper import is required for successful compilation and usage of the SDK features.
 
 ``` 
 import AgentsClientSDK
 ```
+### Step 3: Configure the SDK with appsettings.json
 
-### Step 3: Connection to SDK is initialized like so
+This step guides you to create an `appsettings.json` file in your project directory. This
+configuration file provides the necessary environment, agent, and speech settings required by the
+SDK to connect and function correctly. The file should look like this:
 
-``` 
-    @StateObject var viewModel = MultimodalClientSdk.shared
-    
-    viewModel.initSDK(
-        appSettings: self.appSettings!
-    )
-    
-
-```
-
-### Step 4: Add this function to load appsettings.json to AppSettings
-
-``` 
-        // Function to load AppSettings from appsettings.json
-    private func loadAppSettings() -> AppSettings? {
-        guard let url = Bundle.main.url(forResource: "appsettings", withExtension: "json") else {
-            print("Could not find appsettings.json file in bundle")
-            return nil
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
-            return appSettings
-        } catch {
-            print("Error loading or parsing appsettings.json: \(error)")
-            return nil
-        }
+```json
+{
+  "user": {
+    "environmentId": "your-environment-id",
+    "schemaName": "your-bot-schema-name",
+    "environment": "your-environment",
+    "auth": {
+        "clientId": "",
+        "tenantId": "",
+        "redirectUri": ""
     }
+  },
+  "speech": {
+    "speechSubscriptionKey": "",
+    "speechServiceRegion": ""
+  }
+}
+```
+
+### Step 4: Initialize the SDK Connection in Your App
+
+This step demonstrates how to load your configuration from appsettings.json and initialize the AgentsClientSDK in your App. Proper initialization ensures the SDK is ready to connect to your agent and handle user interactions as soon as your app starts. This setup is essential for enabling communication between your app and the agent using the provided settings.
+
+```
+@State private var appSettings: AppSettings?
+
+private func loadAppSettings() -> AppSettings? {
+    guard let url = Bundle.main.url(forResource: "appsettings", withExtension: "json") else {
+        print("Could not find appsettings.json file in bundle")
+        return nil
+    }
+    
+    do {
+        let data = try Data(contentsOf: url)
+        let appSettings = try JSONDecoder().decode(AppSettings.self, from: data)
+        return appSettings
+    } catch {
+        print("Error loading or parsing appsettings.json: \(error)")
+        return nil
+    }
+}
+
+ self.appSettings = loadAppSettings()
+```
+
+The below sample demonstrates how to initialize the AgentsClientSDK, typically in your App.
+
+During initialization, the SDK requires one parameter: appSettings: The configuration object created in the previous step, essential for the SDK’s core functionality.
+
+``` 
+    @StateObject var viewModel = AgentsClientSdk.shared
+    // Always initialize SDK first
+    try! viewModel.initSDK(appSettings: self.appSettings!)
 
 ```
 
-### Step 4: Chat window for Rendering message
+### Step 5: Chat window for Rendering message
 #### Published Messages Array within Sdk
 ```swift
 @Published public var messages: [ChatMessage] = []
@@ -163,6 +189,10 @@ struct ChatView: View {
 ```
 
 ### Step 5. Send Messages
+
+This step demonstrates how to send a message from your app to the agent using the SDK. The sendMessage function is called on the sdk instance, passing the user's input text. This triggers the SDK to forward the message to the agent and handle the response, which will be reflected in the chat UI with the help of messages.
+
+This is a simple, direct way to send user input to the agent. You can call this method from any part of your app where you want to initiate a conversation or respond to user actions.
 
 ```swift
 // Send a text message to the bot
