@@ -5,19 +5,20 @@
 //  Created by Riddhi Tharewal on 14/04/25.
 //
 
+
 import SwiftUI
 import AgentsClientSDK
 //import AdaptiveCards
 import SafariServices
 import Combine
 
+
 // contentview
 struct ContentView: View {
-    @StateObject var viewModel = MultimodalClientSdk.shared
+    @StateObject var viewModel = AgentsClientSdk.shared
     @State private var showChat = false
-    @State private var urlConfirmed: Bool = false
-    @State private var appSettings: AppSettings? = nil
-    
+    @State private var appSettings: AppSettings?
+
     
     // Function to load AppSettings from appsettings.json
     private func loadAppSettings() -> AppSettings? {
@@ -38,117 +39,108 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            //if url is empty
-            if urlConfirmed {
-                
-                //main app window
-                // Background image
-                Image("appbackground") // Replace with your image asset name
-                    .resizable()
-                    .scaledToFill()
-                    .ignoresSafeArea()
-                
-                ZStack(alignment: .top) {
-                    // Welcome text at the top
-                    VStack(alignment: .leading, spacing: 0) {
-                        Text("Welcome to the TextClientApp")
-                            .font(.title)
-                            .foregroundColor(.white)
-                            .padding(.top, 60)
-                            .padding(.horizontal)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                        
-                        Text("This app uses the AgentsClientSDK, enabling you to explore its multimodal features.")
-                            .foregroundColor(.white)
-                            .padding(.top, 7)
-                            .padding(.horizontal)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                    }
-                    //.zIndex(0) // Ensure it's above the background
-                    // if chat is enabled show chat window
-                    if showChat {
-                        ZStack {
-                            Color.black.opacity(0.3)
-                                .ignoresSafeArea()
-                            ChatView(viewModel: viewModel, showChat: $showChat)
-                                .frame(
-                                    width: UIScreen.main.bounds.width * 0.9,
-                                    height: min(UIScreen.main.bounds.height * 0.65, 500) // 500 or any max height you want
-                                )
-                                .background(Color.white)
-                                .cornerRadius(12)
-                                .shadow(radius: 10)
-                                .transition(.move(edge: .bottom))
-                            // .zIndex(10)
-                        }
-                        .ignoresSafeArea()
-                    }
-                    
-                    //bottom mic and chat button on main view
-                    VStack(spacing: 0){
-                        Spacer()
-                        HStack(spacing: 0){
-                            Spacer()
-                            HStack(spacing: 0) {
-                                ChatToggleButton(showChat: $showChat, viewModel: viewModel)
-                            }
-                            .padding()
-                            .padding(.vertical, 6)
-                            .padding(.horizontal, 10)
-                            .background(
-                                Capsule()
-                                    .fill(Color.white)
-                                    .shadow(color: .gray.opacity(0.3), radius: 8, x: 0, y: 4)
-                            )
-                            .overlay(
-                                // Right border as a rectangle, 2pt wide, aligned trailing
-                                Rectangle()
-                                    .fill(Color.gray)
-                                    .frame(width: 2)
-                                    .clipShape(Capsule())
-                                    .padding(.vertical, 8)
-                                , alignment: .trailing
-                            )
-                            .fixedSize()
-                        }
-                        .padding(.bottom, 50)
-                        .padding(.trailing, 12)
-                        
-                        //  .zIndex(0)
-                        
-                    }
-                }
-                .ignoresSafeArea()
+            if(!viewModel.userToken.isEmpty){
+                // Show main app window after SDK authentication
+                MainAppView(viewModel: viewModel, showChat: $showChat)
             }
         }
         .onAppear {
-            // Do nothing here
-            do{
-                try self.appSettings = loadAppSettings()
-                urlConfirmed = true
-            }
-            catch{
-                print("There is error loading json")
-            }
+            self.appSettings = loadAppSettings()
+            // Always initialize SDK first
+            try! viewModel.initSDK(appSettings: self.appSettings!)
         }
-        
-        // if urlconfirmed is true
-        .onChange(of: urlConfirmed) { confirmed in
-            if confirmed {
-                // directline window
-                viewModel.initSDK(
-                    appSettings: self.appSettings!
-                )
-            }
-        }
+       
     }
+    
 }
 
-
+// MARK: - Main App View
+struct MainAppView: View {
+    @ObservedObject var viewModel: AgentsClientSdk
+    @Binding var showChat: Bool
+    var body: some View {
+        ZStack {
+            // Background image
+            Image("appbackground") // Replace with your image asset name
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
+            
+            ZStack(alignment: .top) {
+                // Welcome text at the top
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Welcome to the TextClientApp")
+                        .font(.title)
+                        .foregroundColor(.white)
+                        .padding(.top, 60)
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    
+                    Text("This app uses the AgentsClientSDK, enabling you to explore its multimodal features.")
+                        .foregroundColor(.white)
+                        .padding(.top, 7)
+                        .padding(.horizontal)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                
+                // Chat overlay
+                if showChat {
+                    ZStack {
+                        Color.black.opacity(0.3)
+                            .ignoresSafeArea()
+                        ChatView(viewModel: viewModel, showChat: $showChat)
+                            .frame(
+                                width: UIScreen.main.bounds.width * 0.9,
+                                height: min(UIScreen.main.bounds.height * 0.65, 500)
+                            )
+                            .background(Color.white)
+                            .cornerRadius(12)
+                            .shadow(radius: 10)
+                            .transition(.move(edge: .bottom))
+                    }
+                    .ignoresSafeArea()
+                }
+                
+                // Bottom chat button
+                VStack(spacing: 0){
+                    Spacer()
+                    HStack(spacing: 0){
+                        Spacer()
+                        HStack(spacing: 0) {
+                            ChatToggleButton(showChat: $showChat, viewModel: viewModel)
+                        }
+                        .padding()
+                        .padding(.vertical, 6)
+                        .padding(.horizontal, 10)
+                        .background(
+                            Capsule()
+                                .fill(Color.white)
+                                .shadow(color: .gray.opacity(0.3), radius: 8, x: 0, y: 4)
+                        )
+                        .overlay(
+                            Rectangle()
+                                .fill(Color.gray)
+                                .frame(width: 2)
+                                .clipShape(Capsule())
+                                .padding(.vertical, 8)
+                            , alignment: .trailing
+                        )
+                        .fixedSize()
+                    }
+                    .padding(.bottom, 50)
+                    .padding(.trailing, 12)
+                }
+            }
+            .ignoresSafeArea()
+        }
+        
+    }
+        
+}
 
 struct ChatToggleButton: View {
     @Binding var showChat: Bool
-    @ObservedObject var viewModel: MultimodalClientSdk
+    @ObservedObject var viewModel: AgentsClientSdk
     var body: some View {
         Button(action: {
             withAnimation {
@@ -167,11 +159,10 @@ struct ChatToggleButton: View {
         //  .padding(.bottom, 40)
     }
 }
-
-
+  
 
 struct MessagesListView: View {
-    @ObservedObject var viewModel: MultimodalClientSdk
+    @ObservedObject var viewModel: AgentsClientSdk
     @State private var adaptiveCardHeight: CGFloat = 0
     
     var body: some View {
@@ -311,13 +302,16 @@ struct TypingBubbleView: View {
     }
 }
 
+
 struct ChatView: View {
-    @ObservedObject var viewModel: MultimodalClientSdk
+    @ObservedObject var viewModel: AgentsClientSdk
     @Binding var showChat: Bool
     @State private var recognizedText: String = ""
     
     var body: some View {
-        VStack {
+         GeometryReader { geometry in
+        VStack(spacing: 0) {
+            // Close button
             HStack {
                 Spacer()
                 Button(action: {
@@ -331,49 +325,48 @@ struct ChatView: View {
                         .padding()
                 }
             }
-            ZStack(alignment: .bottomLeading) {
-                MessagesListView(viewModel: viewModel)
-                //                if viewModel.isBotResponding {
-                //                    HStack(alignment: .bottom) {
-                //                        TypingBubbleView()
-                //                        Spacer()
-                //                    }
-                //                    .padding(.horizontal)
-                //                    .padding(.bottom, 4)
-                //                    .transition(.opacity)
-                //                }
-            }
             
+            // Messages area
+            MessagesListView(viewModel: viewModel)
             
+            // Input area - always at bottom
             if !viewModel.userToken.isEmpty {
-                HStack {
-                    TextField("Type a message", text: $viewModel.userMessage)
-                        .padding()
-                        .background(Color(.systemGray6))
-                        .cornerRadius(10)
-                        .textFieldStyle(PlainTextFieldStyle())
-                    Button(action: {
-                        Task {
-                            await viewModel.sendMessage(text: viewModel.userMessage)
-                            viewModel.isBotResponding = true
-                            viewModel.stopSpeaking()
-                        }
-                    }) {
-                        Text("Send")
-                            .font(.headline)
-                            .foregroundColor(.white)
-                            .padding(.horizontal)
-                            .padding(.vertical, 10)
-                            .background(Color.blue)
+                VStack(spacing: 0) {
+                    Divider()
+                    HStack {
+                        TextField("Type a message", text: $viewModel.userMessage)
+                            .padding(12)
+                            .background(Color(.systemGray6))
                             .cornerRadius(10)
+                            .textFieldStyle(PlainTextFieldStyle())
+                        
+                        Button(action: {
+                            Task {
+                                await viewModel.sendMessage(text: viewModel.userMessage)
+                                viewModel.isBotResponding = true
+                                viewModel.stopSpeaking()
+                            }
+                        }) {
+                            Text("Send")
+                                .font(.headline)
+                                .foregroundColor(.white)
+                                .padding(.horizontal, 16)
+                                .padding(.vertical, 10)
+                                .background(Color.blue)
+                                .cornerRadius(10)
+                        }
+                        .disabled(viewModel.userMessage.isEmpty)
                     }
-                    .disabled(viewModel.userMessage.isEmpty)
+                    .padding()
+                    .background(Color.white)
                 }
             }
         }
+         }
         .background(Color.white)
         .cornerRadius(12)
-        .padding()
+       //   .keyboardAdaptive()
+        // Removed .keyboardAdaptive() since KeyboardAwareChatView handles positioning
     }
 }
 
