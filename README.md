@@ -70,10 +70,7 @@ Perform interactive sign-in.
 
 ##### Published Properties (Observable)
 
-- `userMessage: String` - Current user input message
-- `userToken: String` - Current authentication token
 - `messages: [ChatMessage]` - Array of chat messages
-- `isBotResponding: Bool` - Whether bot is currently responding
 
 ### Once you have created a new application or project in XCode, follow these steps to add the AgentsClientSDK to your project.
 
