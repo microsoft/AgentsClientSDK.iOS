@@ -1,6 +1,10 @@
-samples/TextClientApp/.DS_Store
-samples/TextClientApp/.DS_Store?
-samples/TextClientApp/TextClientApp.xcodeproj/project.pbxproj
-*/.DS_Store
+# Xcode user data
+**/xcuserdata/
+xcuserdata/
+*.xcuserstate
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
 **/.DS_Store
-samples/TextClientApp/TextClientApp.xcodeproj/project.xcworkspace/xcuserdata

@@ -5,20 +5,19 @@
 //  Created by Riddhi Tharewal on 14/04/25.
 //
 
-
 import SwiftUI
 import AgentsClientSDK
 //import AdaptiveCards
 import SafariServices
 import Combine
 
-
 // contentview
 struct ContentView: View {
-    @StateObject var viewModel = AgentsClientSdk.shared
+    @State private var client: ClientSDK?
     @State private var showChat = false
     @State private var appSettings: AppSettings?
-
+    @State private var showErrorAlert = false
+    @State private var errorMessage = ""
     
     // Function to load AppSettings from appsettings.json
     private func loadAppSettings() -> AppSettings? {
@@ -39,24 +38,91 @@ struct ContentView: View {
     
     var body: some View {
         ZStack {
-            if(!viewModel.userToken.isEmpty){
-                // Show main app window after SDK authentication
-                MainAppView(viewModel: viewModel, showChat: $showChat)
+            if let client = client, client.isInitialized {
+                MainAppView(client: client, showChat: $showChat)
+            } else {
+                // Show loading screen
+                ProgressView("Loading...")
+                    .progressViewStyle(CircularProgressViewStyle())
+                    .scaleEffect(1.5)
             }
         }
         .onAppear {
             self.appSettings = loadAppSettings()
-            // Always initialize SDK first
-            try! viewModel.initSDK(appSettings: self.appSettings!)
+            // Always initialize SDK first to configure MSAL
+            initializeSDK()
         }
-       
+        
+        .onChange(of: AgentsClientSdk.shared.isInitialized) { isInitialized in
+            if isInitialized {
+                // If the shared SDK is initialized but we don't have a client yet, get it
+                if client == nil {
+                    // This can happen if authentication completed after the callback
+                    Task {
+                        // Small delay to ensure initialization is complete
+                        try? await Task.sleep(nanoseconds: 100_000_000)
+                        await MainActor.run {
+                            if let sharedClient = AgentsClientSdk.shared.client {
+                                self.client = sharedClient
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        .alert("Error", isPresented: $showErrorAlert) {
+            Button("Dismiss") {
+                // Exit the app equivalent to finishAffinity()
+                exit(0)
+            }
+        } message: {
+            Text(errorMessage)
+        }
     }
     
+    private func initializeSDK() {
+        guard let appSettings = self.appSettings else { return }
+        
+        // Check if SDK is already initialized
+        Task {
+            do {
+                self.client = try await AgentsClientSdk.shared.initSDK(appSettings: appSettings)
+                
+                // If client is still nil after initialization, try to get it from shared SDK
+                if self.client == nil {
+                    self.client = AgentsClientSdk.shared.client
+                }
+                
+            } catch let error as SDKError {
+                let errorMsg = "\(error.errorCode): \(error.localizedDescription)"
+                print("ContentView Error: \(errorMsg)")
+                // Show toast equivalent - SwiftUI alert dialog
+                await MainActor.run {
+                    showErrorAlert(errorMsg)
+                }
+            } catch {
+                print("ContentView Error: \(error)")
+                await MainActor.run {
+                    showErrorAlert("Initialization failed: \(error.localizedDescription)")
+                }
+            }
+        }
+    }
+    
+    private func showErrorAlert(_ message: String) {
+        // SwiftUI equivalent of Android's runOnUiThread with AlertDialog
+        DispatchQueue.main.async {
+            self.errorMessage = message
+            self.showErrorAlert = true
+        }
+    }
 }
+
 
 // MARK: - Main App View
 struct MainAppView: View {
-    @ObservedObject var viewModel: AgentsClientSdk
+    @ObservedObject var client: ClientSDK
     @Binding var showChat: Bool
     var body: some View {
         ZStack {
@@ -88,7 +154,7 @@ struct MainAppView: View {
                     ZStack {
                         Color.black.opacity(0.3)
                             .ignoresSafeArea()
-                        ChatView(viewModel: viewModel, showChat: $showChat)
+                        ChatView(client: client, showChat: $showChat)
                             .frame(
                                 width: UIScreen.main.bounds.width * 0.9,
                                 height: min(UIScreen.main.bounds.height * 0.65, 500)
@@ -107,7 +173,7 @@ struct MainAppView: View {
                     HStack(spacing: 0){
                         Spacer()
                         HStack(spacing: 0) {
-                            ChatToggleButton(showChat: $showChat, viewModel: viewModel)
+                            ChatToggleButton(showChat: $showChat)
                         }
                         .padding()
                         .padding(.vertical, 6)
@@ -135,20 +201,20 @@ struct MainAppView: View {
         }
         
     }
-        
+    
 }
 
 struct ChatToggleButton: View {
     @Binding var showChat: Bool
-    @ObservedObject var viewModel: AgentsClientSdk
+    
     var body: some View {
         Button(action: {
             withAnimation {
                 showChat.toggle()
             }
         }) {
-            Image(systemName: viewModel.iskeyboardActive ? "message.fill" : "message")
-                .foregroundColor(viewModel.iskeyboardActive ? .red : .blue)
+            Image(systemName: showChat ? "message.fill" : "message")
+                .foregroundColor( .blue)
                 .font(.title)
                 .frame(width: 40, height: 40)
                 .padding(.trailing, 0)
@@ -159,17 +225,17 @@ struct ChatToggleButton: View {
         //  .padding(.bottom, 40)
     }
 }
-  
+
 
 struct MessagesListView: View {
-    @ObservedObject var viewModel: AgentsClientSdk
+    @ObservedObject var client: ClientSDK
     @State private var adaptiveCardHeight: CGFloat = 0
     
     var body: some View {
         ScrollViewReader { proxy in
             ScrollView(.vertical) {
                 VStack(spacing: 12) {
-                    ForEach(viewModel.messages) { message in
+                    ForEach(client.messages) { message in
                         HStack {
                             if message.sender == "User" { Spacer() }
                             VStack(alignment: message.sender == "User" ? .trailing : .leading) {
@@ -217,7 +283,7 @@ struct MessagesListView: View {
                                 }else{
                                     
                                 }
-                                if let actions = message.suggestedActions, message.id == viewModel.messages.last?.id {
+                                if let actions = message.suggestedActions, message.id == client.messages.last?.id {
                                     let columns = [
                                         GridItem(.adaptive(minimum: 100), spacing: 8)
                                     ]
@@ -225,7 +291,7 @@ struct MessagesListView: View {
                                         ForEach(actions, id: \.self) { actionTitle in
                                             Button(action: {
                                                 Task {
-                                                    await viewModel.sendMessage(text: actionTitle)
+                                                    await client.sendMessage(text: actionTitle)
                                                 }
                                             }) {
                                                 Text(actionTitle)
@@ -251,8 +317,8 @@ struct MessagesListView: View {
                 }
                 
                 .padding(.bottom)
-                .onChange(of: viewModel.messages.count) { _ in
-                    if let lastMessage = viewModel.messages.last {
+                .onChange(of: client.messages.count) { _ in
+                    if let lastMessage = client.messages.last {
                         withAnimation {
                             proxy.scrollTo(lastMessage.id, anchor: .bottom)
                         }
@@ -304,68 +370,72 @@ struct TypingBubbleView: View {
 
 
 struct ChatView: View {
-    @ObservedObject var viewModel: AgentsClientSdk
+    @ObservedObject var client: ClientSDK
     @Binding var showChat: Bool
     @State private var recognizedText: String = ""
+    @State private var userMessage: String = ""
+    @State private var isBotResponding: Bool = false
     
     var body: some View {
-         GeometryReader { geometry in
-        VStack(spacing: 0) {
-            // Close button
-            HStack {
-                Spacer()
-                Button(action: {
-                    withAnimation {
-                        showChat = false
-                    }
-                }) {
-                    Image(systemName: "xmark.circle.fill")
-                        .foregroundColor(.gray)
-                        .font(.title)
-                        .padding()
-                }
-            }
-            
-            // Messages area
-            MessagesListView(viewModel: viewModel)
-            
-            // Input area - always at bottom
-            if !viewModel.userToken.isEmpty {
-                VStack(spacing: 0) {
-                    Divider()
-                    HStack {
-                        TextField("Type a message", text: $viewModel.userMessage)
-                            .padding(12)
-                            .background(Color(.systemGray6))
-                            .cornerRadius(10)
-                            .textFieldStyle(PlainTextFieldStyle())
-                        
-                        Button(action: {
-                            Task {
-                                await viewModel.sendMessage(text: viewModel.userMessage)
-                                viewModel.isBotResponding = true
-                                viewModel.stopSpeaking()
-                            }
-                        }) {
-                            Text("Send")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding(.horizontal, 16)
-                                .padding(.vertical, 10)
-                                .background(Color.blue)
-                                .cornerRadius(10)
+        GeometryReader { geometry in
+            VStack(spacing: 0) {
+                // Close button
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        withAnimation {
+                            showChat = false
                         }
-                        .disabled(viewModel.userMessage.isEmpty)
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.gray)
+                            .font(.title)
+                            .padding()
                     }
-                    .padding()
-                    .background(Color.white)
+                }
+                
+                // Messages area
+                MessagesListView(client: client)
+                
+                // Input area - always at bottom
+                if client.isInitialized {
+                    VStack(spacing: 0) {
+                        Divider()
+                        HStack {
+                            TextField("Type a message", text: $userMessage)
+                                .padding(12)
+                                .background(Color(.systemGray6))
+                                .cornerRadius(10)
+                                .textFieldStyle(PlainTextFieldStyle())
+                            
+                            Button(action: {
+                                Task {
+                                    await client.sendMessage(text: userMessage)
+                                    userMessage = ""
+                                    isBotResponding = true
+                                    try? client.stopSpeaking()
+                                }
+                            }) {
+                                Text("Send")
+                                    .font(.headline)
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 16)
+                                    .padding(.vertical, 10)
+                                    .background(Color.blue)
+                                    .cornerRadius(10)
+                            }
+                            .disabled(userMessage.isEmpty)
+                            
+                        }
+                        .padding()
+                        .background(Color.white)
+                    }
                 }
             }
         }
-         }
         .background(Color.white)
         .cornerRadius(12)
-       //   .keyboardAdaptive()
+        //   .keyboardAdaptive()
         // Removed .keyboardAdaptive() since KeyboardAwareChatView handles positioning
     }
 }

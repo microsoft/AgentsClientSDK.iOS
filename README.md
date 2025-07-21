@@ -16,11 +16,6 @@ Follow along to add the iOS SDK to your app for multimodal agent interactions.
 This tutorial will help you connect with an agent created and published in Copilot Studio without authentication.
 The SDK connects to agents using Directline protocol, which enables anonymous text based agent
 interactions through websockets.
-You will need the following:
-
-1. Bot schema name
-2. Environment Id
-3. environment
 
 To ensure a smooth and successful integration of the SDK with your application, please make sure your development environment meets the following prerequisites.
 
@@ -29,6 +24,7 @@ To ensure a smooth and successful integration of the SDK with your application, 
 - iOS 14.0+
 
 #### Dev Env Prerequisites
+
 - Xcode 12.0+
 - Swift 5.0+
 
@@ -37,7 +33,6 @@ To ensure a smooth and successful integration of the SDK with your application, 
 This SDK is built entirely in **Swift** and distributed as an **XCFramework**
 
 #### XCFramework Structure
-
 
 XCFramework is Apple's binary distribution format that packages multiple architectures (iOS, macOS, simulator, etc.) into a single bundle for easier library distribution and consumption across different platforms. AgentsClientSDK supports only iOS devices and iOS simulators 
 
@@ -101,20 +96,29 @@ SDK to connect and function correctly. The file should look like this:
 ```json
 {
   "user": {
-    "environmentId": "your-environment-id",
-    "schemaName": "your-bot-schema-name",
-    "environment": "your-environment",
-    "auth": {
-        "clientId": "",
-        "tenantId": "",
-        "redirectUri": ""
+    "environmentId": "",        // environment in which agent is created
+    "schemaName": "",           // schema name of agent. Both are available in agent Metadata
+    "environment": "",          // mapping given below
+    "isAuthEnabled": false,     // remains false for this release
+    "auth": {                   // furure scope. No need to input anything for now
+      "clientId": "",
+      "tenantId": "",
+      "redirectUri": ""
     }
   },
-  "speech": {
+  "speech": {               // furure scope. No need to input anything for now
     "speechSubscriptionKey": "",
     "speechServiceRegion": ""
   }
 }
+```
+
+Environment mapping:
+
+```
+copilotstudio.microsoft.com -> prod
+copilotstudio.preview.microsoft.com -> prod
+copilotstudio.preprod.microsoft.com -> preprod
 ```
 
 ### Step 4: Initialize the SDK Connection in Your App
@@ -148,10 +152,9 @@ The below sample demonstrates how to initialize the AgentsClientSDK, typically i
 During initialization, the SDK requires one parameter: appSettings: The configuration object created in the previous step, essential for the SDK’s core functionality.
 
 ``` 
-    @StateObject var viewModel = AgentsClientSdk.shared
+    @State private var agentsClientSdk: ClientSDK?
     // Always initialize SDK first
-    try! viewModel.initSDK(appSettings: self.appSettings!)
-
+    self.agentsClientSdk = try await AgentsClientSdk.shared.initSDK(appSettings: appSettings)
 ```
 
 ### Step 5: Chat window for Rendering message
@@ -177,11 +180,10 @@ public struct ChatMessage: Identifiable {
 #### SwiftUI Integration
 ```swift
 struct ChatView: View {
-    @StateObject private var viewModel = MultimodalClientSdk.shared
-    
+    @ObservedObject var agentsClientSdk: ClientSDK
     var body: some View {
         // Automatically updates when messages change
-        ForEach(viewModel.messages) { message in
+        ForEach(agentsClientSdk.messages) { message in
             MessageRow(message: message)
         }
     }
@@ -196,7 +198,7 @@ This is a simple, direct way to send user input to the agent. You can call this 
 
 ```swift
 // Send a text message to the bot
-await viewModel.sendMessage(text: "Hello, how can you help me?")
+await agentsClientSdk.sendMessage(text: "Hello, how can you help me?")
 ```
 
 ## Troubleshooting
