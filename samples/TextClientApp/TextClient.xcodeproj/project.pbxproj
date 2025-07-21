@@ -6,6 +6,11 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		2EF5A4962E292DE8006CEDFD /* AgentsClientSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 2EF5A4952E292DE8006CEDFD /* AgentsClientSDK */; };
+		2EF5A4972E292DE8006CEDFD /* AgentsClientSDK in Embed Frameworks */ = {isa = PBXBuildFile; productRef = 2EF5A4952E292DE8006CEDFD /* AgentsClientSDK */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+/* End PBXBuildFile section */
+
 /* Begin PBXContainerItemProxy section */
 		2E3A3A5C2E15770B00D5400F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -23,39 +28,53 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		2E3A3A8C2E1577EE00D5400F /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				2EF5A4972E292DE8006CEDFD /* AgentsClientSDK in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
-		2E3A3A4B2E15770A00D5400F /* TextClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E3A3A5B2E15770B00D5400F /* TextClientAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextClientAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		2E3A3A652E15770B00D5400F /* TextClientAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextClientAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3A3A4B2E15770A00D5400F /* TextClient.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextClient.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3A3A5B2E15770B00D5400F /* TextClientTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextClientTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2E3A3A652E15770B00D5400F /* TextClientUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextClientUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		2E3A3AB02E15802000D5400F /* Exceptions for "TextClientApp" folder in "TextClientApp" target */ = {
+		2EE6CE1E2E28037A008ABFBA /* Exceptions for "TextClient" folder in "TextClient" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 2E3A3A4A2E15770A00D5400F /* TextClientApp */;
+			target = 2E3A3A4A2E15770A00D5400F /* TextClient */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		2E3A3A4D2E15770A00D5400F /* TextClientApp */ = {
+		2E3A3A4D2E15770A00D5400F /* TextClient */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
-				2E3A3AB02E15802000D5400F /* Exceptions for "TextClientApp" folder in "TextClientApp" target */,
+				2EE6CE1E2E28037A008ABFBA /* Exceptions for "TextClient" folder in "TextClient" target */,
 			);
-			path = TextClientApp;
+			path = TextClient;
 			sourceTree = "<group>";
 		};
-		2E3A3A5E2E15770B00D5400F /* TextClientAppTests */ = {
+		2E3A3A5E2E15770B00D5400F /* TextClientTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TextClientAppTests;
+			path = TextClientTests;
 			sourceTree = "<group>";
 		};
-		2E3A3A682E15770B00D5400F /* TextClientAppUITests */ = {
+		2E3A3A682E15770B00D5400F /* TextClientUITests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
-			path = TextClientAppUITests;
+			path = TextClientUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -65,6 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EF5A4962E292DE8006CEDFD /* AgentsClientSDK in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,9 +108,9 @@
 		2E3A3A422E15770A00D5400F = {
 			isa = PBXGroup;
 			children = (
-				2E3A3A4D2E15770A00D5400F /* TextClientApp */,
-				2E3A3A5E2E15770B00D5400F /* TextClientAppTests */,
-				2E3A3A682E15770B00D5400F /* TextClientAppUITests */,
+				2E3A3A4D2E15770A00D5400F /* TextClient */,
+				2E3A3A5E2E15770B00D5400F /* TextClientTests */,
+				2E3A3A682E15770B00D5400F /* TextClientUITests */,
 				2E3A3A882E1577EE00D5400F /* Frameworks */,
 				2E3A3A4C2E15770A00D5400F /* Products */,
 			);
@@ -99,9 +119,9 @@
 		2E3A3A4C2E15770A00D5400F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				2E3A3A4B2E15770A00D5400F /* TextClientApp.app */,
-				2E3A3A5B2E15770B00D5400F /* TextClientAppTests.xctest */,
-				2E3A3A652E15770B00D5400F /* TextClientAppUITests.xctest */,
+				2E3A3A4B2E15770A00D5400F /* TextClient.app */,
+				2E3A3A5B2E15770B00D5400F /* TextClientTests.xctest */,
+				2E3A3A652E15770B00D5400F /* TextClientUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -116,31 +136,33 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		2E3A3A4A2E15770A00D5400F /* TextClientApp */ = {
+		2E3A3A4A2E15770A00D5400F /* TextClient */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E3A3A6F2E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientApp" */;
+			buildConfigurationList = 2E3A3A6F2E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClient" */;
 			buildPhases = (
 				2E3A3A472E15770A00D5400F /* Sources */,
 				2E3A3A482E15770A00D5400F /* Frameworks */,
 				2E3A3A492E15770A00D5400F /* Resources */,
+				2E3A3A8C2E1577EE00D5400F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				2E3A3A4D2E15770A00D5400F /* TextClientApp */,
+				2E3A3A4D2E15770A00D5400F /* TextClient */,
 			);
-			name = TextClientApp;
+			name = TextClient;
 			packageProductDependencies = (
+				2EF5A4952E292DE8006CEDFD /* AgentsClientSDK */,
 			);
 			productName = SampleApp;
-			productReference = 2E3A3A4B2E15770A00D5400F /* TextClientApp.app */;
+			productReference = 2E3A3A4B2E15770A00D5400F /* TextClient.app */;
 			productType = "com.apple.product-type.application";
 		};
-		2E3A3A5A2E15770B00D5400F /* TextClientAppTests */ = {
+		2E3A3A5A2E15770B00D5400F /* TextClientTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E3A3A722E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientAppTests" */;
+			buildConfigurationList = 2E3A3A722E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientTests" */;
 			buildPhases = (
 				2E3A3A572E15770B00D5400F /* Sources */,
 				2E3A3A582E15770B00D5400F /* Frameworks */,
@@ -152,18 +174,18 @@
 				2E3A3A5D2E15770B00D5400F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				2E3A3A5E2E15770B00D5400F /* TextClientAppTests */,
+				2E3A3A5E2E15770B00D5400F /* TextClientTests */,
 			);
-			name = TextClientAppTests;
+			name = TextClientTests;
 			packageProductDependencies = (
 			);
 			productName = SampleAppTests;
-			productReference = 2E3A3A5B2E15770B00D5400F /* TextClientAppTests.xctest */;
+			productReference = 2E3A3A5B2E15770B00D5400F /* TextClientTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		2E3A3A642E15770B00D5400F /* TextClientAppUITests */ = {
+		2E3A3A642E15770B00D5400F /* TextClientUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 2E3A3A752E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientAppUITests" */;
+			buildConfigurationList = 2E3A3A752E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientUITests" */;
 			buildPhases = (
 				2E3A3A612E15770B00D5400F /* Sources */,
 				2E3A3A622E15770B00D5400F /* Frameworks */,
@@ -175,13 +197,13 @@
 				2E3A3A672E15770B00D5400F /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
-				2E3A3A682E15770B00D5400F /* TextClientAppUITests */,
+				2E3A3A682E15770B00D5400F /* TextClientUITests */,
 			);
-			name = TextClientAppUITests;
+			name = TextClientUITests;
 			packageProductDependencies = (
 			);
 			productName = SampleAppUITests;
-			productReference = 2E3A3A652E15770B00D5400F /* TextClientAppUITests.xctest */;
+			productReference = 2E3A3A652E15770B00D5400F /* TextClientUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -207,7 +229,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 2E3A3A462E15770A00D5400F /* Build configuration list for PBXProject "TextClientApp" */;
+			buildConfigurationList = 2E3A3A462E15770A00D5400F /* Build configuration list for PBXProject "TextClient" */;
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -217,15 +239,16 @@
 			mainGroup = 2E3A3A422E15770A00D5400F;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
+				2EF5A47F2E292D66006CEDFD /* XCLocalSwiftPackageReference "../../AgentsClientSDK" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 2E3A3A4C2E15770A00D5400F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				2E3A3A4A2E15770A00D5400F /* TextClientApp */,
-				2E3A3A5A2E15770B00D5400F /* TextClientAppTests */,
-				2E3A3A642E15770B00D5400F /* TextClientAppUITests */,
+				2E3A3A4A2E15770A00D5400F /* TextClient */,
+				2E3A3A5A2E15770B00D5400F /* TextClientTests */,
+				2E3A3A642E15770B00D5400F /* TextClientUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -281,12 +304,12 @@
 /* Begin PBXTargetDependency section */
 		2E3A3A5D2E15770B00D5400F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2E3A3A4A2E15770A00D5400F /* TextClientApp */;
+			target = 2E3A3A4A2E15770A00D5400F /* TextClient */;
 			targetProxy = 2E3A3A5C2E15770B00D5400F /* PBXContainerItemProxy */;
 		};
 		2E3A3A672E15770B00D5400F /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 2E3A3A4A2E15770A00D5400F /* TextClientApp */;
+			target = 2E3A3A4A2E15770A00D5400F /* TextClient */;
 			targetProxy = 2E3A3A662E15770B00D5400F /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -418,7 +441,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"TextClientApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TextClient/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -427,7 +450,7 @@
 					"$(inherited)",
 				);
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TextClientApp/Info.plist;
+				INFOPLIST_FILE = TextClient/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -452,12 +475,12 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"TextClientApp/Preview Content\"";
+				DEVELOPMENT_ASSET_PATHS = "\"TextClient/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GCC_PREPROCESSOR_DEFINITIONS = "SWIFT_PACKAGE=1";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = TextClientApp/Info.plist;
+				INFOPLIST_FILE = TextClient/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -489,7 +512,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextClientApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextClientApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextClient.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextClient";
 			};
 			name = Debug;
 		};
@@ -507,7 +530,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextClientApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextClientApp";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextClient.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextClient";
 			};
 			name = Release;
 		};
@@ -546,7 +569,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		2E3A3A462E15770A00D5400F /* Build configuration list for PBXProject "TextClientApp" */ = {
+		2E3A3A462E15770A00D5400F /* Build configuration list for PBXProject "TextClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E3A3A6D2E15770B00D5400F /* Debug */,
@@ -555,7 +578,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E3A3A6F2E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientApp" */ = {
+		2E3A3A6F2E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClient" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E3A3A702E15770B00D5400F /* Debug */,
@@ -564,7 +587,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E3A3A722E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientAppTests" */ = {
+		2E3A3A722E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E3A3A732E15770B00D5400F /* Debug */,
@@ -573,7 +596,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2E3A3A752E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientAppUITests" */ = {
+		2E3A3A752E15770B00D5400F /* Build configuration list for PBXNativeTarget "TextClientUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				2E3A3A762E15770B00D5400F /* Debug */,
@@ -583,6 +606,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		2EF5A47F2E292D66006CEDFD /* XCLocalSwiftPackageReference "../../AgentsClientSDK" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = ../../AgentsClientSDK;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2EF5A4952E292DE8006CEDFD /* AgentsClientSDK */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2EF5A47F2E292D66006CEDFD /* XCLocalSwiftPackageReference "../../AgentsClientSDK" */;
+			productName = AgentsClientSDK;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 2E3A3A432E15770A00D5400F /* Project object */;
 }
