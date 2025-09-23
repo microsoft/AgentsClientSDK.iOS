@@ -46,16 +46,17 @@ AgentsClientSDK.xcframework/
 
 #### XCFramework Integration 
 
-1. Download the `AgentsClientSDK.xcframework` from https://github.com/microsoft/AgentsClientSDK.iOS/releases/
-2. Drag it into your Xcode project
-3. Add to "Frameworks, Libraries, and Embedded Content"
-4. Set to "Embed & Sign"
+1. Download and extract signed zip file `AgentsClientSDK.xcframework` from https://github.com/microsoft/AgentsClientSDK.iOS/releases/
+2. Also download and extract the signed zip file `MSAL.xcframework` from https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.4.0/MSAL.zip
+3. Drag them into your Xcode project
+4. Add them to "Frameworks, Libraries, and Embedded Content"
+5. Set to "Embed & Sign"
 
 ### API Reference
 
 #### Core Methods
 
-##### `initSDK(appSettings:)`
+##### `initSDK(appSettings:)` or `initSDK(authenticationDelegate: appSettings:)`
 Initialize the SDK with required parameters.
 
 ##### `sendMessage(text:) async`
@@ -153,6 +154,14 @@ During initialization, the SDK requires one parameter: appSettings: The configur
     // Always initialize SDK first
     self.agentsClientSdk = try await AgentsClientSdk.shared.initSDK(appSettings: appSettings)
 ```
+or 
+
+``` 
+    @State private var agentsClientSdk: ClientSDK?
+    // Always initialize SDK first
+    self.agentsClientSdk = try await AgentsClientSdk.shared.initSDK(authenticationDelegate:self, appSettings: appSettings)
+```
+
 
 ### Step 5: Chat window for Rendering message
 #### Published Messages Array within Sdk
