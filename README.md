@@ -121,7 +121,7 @@ copilotstudio.preview.microsoft.com -> prod
 copilotstudio.preprod.microsoft.com -> preprod
 ```
 
-For ACogs, you'll find the keys in the Azure portal uder AI Foundry | Speech service
+For ACogs, you'll find the keys in the Azure portal under AI Foundry | Speech service
 [Learn More](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/)
 
 ![SpeechKeys](assets/SpeechKeys.png)
