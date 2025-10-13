@@ -47,16 +47,18 @@ AgentsClientSDK.xcframework/
 #### XCFramework Integration 
 
 1. Download the `AgentsClientSDK.xcframework` from https://github.com/microsoft/AgentsClientSDK.iOS/releases/
-2. Drag it into your Xcode project
-3. Add to "Frameworks, Libraries, and Embedded Content"
-4. Set to "Embed & Sign"
+2. Also download and extract the signed zip file `MSAL.xcframework` from https://github.com/AzureAD/microsoft-authentication-library-for-objc/releases/download/2.4.0/MSAL.zip, if you are planning to use Authentication
+3. Also download and extract `MicrosoftCognitiveServicesSpeech.xcframework` from https://aka.ms/csspeech/iosbinary, if you are planning to use ACogs for speech processing
+4. Drag them into your Xcode project
+5. Add to "Frameworks, Libraries, and Embedded Content"
+6. Set to "Embed & Sign"
 
 ### API Reference
 
 #### Core Methods
 
-##### `initSDK(appSettings:)`
-Initialize the SDK with required parameters.
+##### `initSDK(appSettings:)` or `initSDK(authenticationDelegate: appSettings:)`
+Initialize the SDK with required parameters. Use the second one if you enabled authentication.
 
 ##### `sendMessage(text:) async`
 Send a text message to the bot asynchronously.
@@ -76,7 +78,7 @@ Perform interactive sign-in.
 
 ### Step 1: Include in build
 
-Include the AgentsClientSDK.xcframework file as a dependency.
+Include the AgentsClientSDK.xcframework file as a dependency. Optionally include MSAL.xcframework and/or MicrosoftCognitiveServicesSpeech.xcframework as required. 
 
 ### Step 2: Import AgentsClientSDK classes in your ContentView
 In this step, you import the AgentsClientSDK into your ContentView. This allows your application to access the SDK’s core functionality and configuration models, enabling you to initialize and interact with the SDK in your app’s code. Proper import is required for successful compilation and usage of the SDK features.
@@ -92,20 +94,21 @@ SDK to connect and function correctly. The file should look like this:
 
 ```json
 {
-  "user": {
-    "environmentId": "",        // environment in which agent is created
-    "schemaName": "",           // schema name of agent. Both are available in agent Metadata
-    "environment": "",          // mapping given below
-    "isAuthEnabled": false,     // remains false for this release
-    "auth": {                   // furure scope. No need to input anything for now
-      "clientId": "",
-      "tenantId": "",
-      "redirectUri": ""
+  "user": {                       // Contains user and authentication configuration.
+    "environmentId": "",          // Unique identifier for the environment in which agent is created. Available in agent Metadata
+    "schemaName": "",             // Name of the schema name of agent. Also available in agent Metadata
+    "environment": "",            // Specifies the environment (e.g., preprod, prod). Mapping given below
+    "isAuthEnabled": Boolean,     // Enables or disables authentication.
+    "auth": {                     // Authentication details.
+      "clientId": "",             // Application's client ID for authentication.
+      "tenantId": "",             // Directory (tenant) ID for authentication.
+      "redirectUri": ""           // URI to redirect after authentication.
     }
   },
-  "speech": {               // furure scope. No need to input anything for now
-    "speechSubscriptionKey": "",
-    "speechServiceRegion": ""
+  "speech": {                     // Contains "ACogs" speech service configuration.
+    "enabled": Boolean,           // Enables or disables speech features.
+    "speechSubscriptionKey": "",  // API key for the speech service.
+    "speechServiceRegion": ""     // Region for the speech service.
   }
 }
 ```
@@ -117,6 +120,20 @@ copilotstudio.microsoft.com -> prod
 copilotstudio.preview.microsoft.com -> prod
 copilotstudio.preprod.microsoft.com -> preprod
 ```
+
+For ACogs, you'll find the keys in the Azure portal under AI Foundry | Speech service
+[Learn More](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/)
+
+![SpeechKeys](assets/SpeechKeys.png)
+
+For Authentication, you'll find the releveant keys in your Azure portal's App Registration
+[Learn More](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app)
+
+![AuthInfo](assets/AuthInfo.png)
+
+![RedirectURI](assets/RedirectURI.png)
+
+
 
 ### Step 4: Initialize the SDK Connection in Your App
 
@@ -146,15 +163,35 @@ private func loadAppSettings() -> AppSettings? {
 
 The below sample demonstrates how to initialize the AgentsClientSDK, typically in your App.
 
-During initialization, the SDK requires one parameter: appSettings: The configuration object created in the previous step, essential for the SDK’s core functionality.
+During initialization, the SDK requires one parameter: appSettings: , and optionally authenticationDelegate: if you require authentication. The configuration object created in the previous step, essential for the SDK’s core functionality.
 
 ``` 
     @State private var agentsClientSdk: ClientSDK?
     // Always initialize SDK first
     self.agentsClientSdk = try await AgentsClientSdk.shared.initSDK(appSettings: appSettings)
 ```
+or 
 
-### Step 5: Chat window for Rendering message
+``` 
+    @State private var agentsClientSdk: ClientSDK?
+    // Always initialize SDK first
+    self.agentsClientSdk = try await AgentsClientSdk.shared.initSDK(authenticationDelegate:self, appSettings: appSettings)
+```
+
+
+### Step 5: Implement IAuthenticationUI Protocol if you have enabled authentication
+#### Your view or controller should conform to IAuthenticationUI to handle authentication UI events
+```swift
+class MyViewController: UIViewController, IAuthenticationUI {
+    func showSignInContent() { /* Show sign-in UI */ }
+    func hideSignInContent() { /* Hide sign-in UI */ }
+    func showSignInLoading() { /* Show loading indicator */ }
+    func hideSignInLoading() { /* Hide loading indicator */ }
+    func getPresentingViewController() async -> UIViewController? { return self }
+}
+```
+
+### Step 6: Chat window for Rendering message
 #### Published Messages Array within Sdk
 ```swift
 @Published public var messages: [ChatMessage] = []
@@ -187,7 +224,7 @@ struct ChatView: View {
 }
 ```
 
-### Step 5. Send Messages
+### Step 7. Send Messages
 
 This step demonstrates how to send a message from your app to the agent using the SDK. The sendMessage function is called on the sdk instance, passing the user's input text. This triggers the SDK to forward the message to the agent and handle the response, which will be reflected in the chat UI with the help of messages.
 
