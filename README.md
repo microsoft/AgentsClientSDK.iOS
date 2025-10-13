@@ -121,6 +121,20 @@ copilotstudio.preview.microsoft.com -> prod
 copilotstudio.preprod.microsoft.com -> preprod
 ```
 
+For ACogs, you'll find the keys in the Azure portal uder AI Foundry | Speech service
+[Learn More](https://learn.microsoft.com/en-us/azure/ai-services/speech-service/)
+
+![SpeechKeys](assets/SpeechKeys.png)
+
+For Authentication, you'll find the releveant keys in your Azure portal's App Registration
+[Learn More](https://learn.microsoft.com/en-us/entra/identity-platform/quickstart-register-app)
+
+![AuthInfo](assets/AuthInfo.png)
+
+![RedirectURI](assets/RedirectURI.png)
+
+
+
 ### Step 4: Initialize the SDK Connection in Your App
 
 This step demonstrates how to load your configuration from appsettings.json and initialize the AgentsClientSDK in your App. Proper initialization ensures the SDK is ready to connect to your agent and handle user interactions as soon as your app starts. This setup is essential for enabling communication between your app and the agent using the provided settings.
