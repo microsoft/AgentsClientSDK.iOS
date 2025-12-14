@@ -8,3 +8,4 @@ xcuserdata/
 .DS_Store?
 ._*
 **/.DS_Store
+samples/TextWithAdaptiveCardClientApp/MicrosoftCognitiveServicesSpeech-XCFramework-1.47.0/*

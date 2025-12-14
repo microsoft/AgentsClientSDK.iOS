@@ -1,0 +1,655 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		0FC376192EEF2D7D00F60F6C /* ThirdPartyNotices.md in Resources */ = {isa = PBXBuildFile; fileRef = 0FC376162EEF2D7D00F60F6C /* ThirdPartyNotices.md */; };
+		0FC3761A2EEF2D7D00F60F6C /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 0FC376132EEF2D7D00F60F6C /* LICENSE.md */; };
+		0FC3761B2EEF2D7D00F60F6C /* REDIST.txt in Resources */ = {isa = PBXBuildFile; fileRef = 0FC376152EEF2D7D00F60F6C /* REDIST.txt */; };
+		0FC376392EEF45A000F60F6C /* AgentsClientSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC376382EEF45A000F60F6C /* AgentsClientSDK.xcframework */; };
+		0FC3763A2EEF45A000F60F6C /* AgentsClientSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC376382EEF45A000F60F6C /* AgentsClientSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0FC3763B2EEF45A600F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC376142EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework */; };
+		0FC3763C2EEF45A600F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC376142EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		0FC3763E2EEF45D100F60F6C /* MSAL.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC3763D2EEF45D100F60F6C /* MSAL.xcframework */; };
+		0FC3763F2EEF45D200F60F6C /* MSAL.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 0FC3763D2EEF45D100F60F6C /* MSAL.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		0FC375DC2EEF18B800F60F6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0FC375C62EEF18B400F60F6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0FC375CD2EEF18B400F60F6C;
+			remoteInfo = TextWithAdaptiveCardClientApp;
+		};
+		0FC375E62EEF18B800F60F6C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0FC375C62EEF18B400F60F6C /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0FC375CD2EEF18B400F60F6C;
+			remoteInfo = TextWithAdaptiveCardClientApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		0FC376052EEF2CA400F60F6C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				0FC3763F2EEF45D200F60F6C /* MSAL.xcframework in Embed Frameworks */,
+				0FC3763A2EEF45A000F60F6C /* AgentsClientSDK.xcframework in Embed Frameworks */,
+				0FC3763C2EEF45A600F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		0FC375CE2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextWithAdaptiveCardClientApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FC375DB2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextWithAdaptiveCardClientAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FC375E52EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextWithAdaptiveCardClientAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		0FC375F92EEF248500F60F6C /* AgentsClientSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgentsClientSDK.xcframework; path = ../../../AgentsClientSDK_static/Latest/AgentsClientSDK.xcframework; sourceTree = "<group>"; };
+		0FC3760B2EEF2D0000F60F6C /* MSAL.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:UBF8T346G9:Microsoft Corporation"; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = ../../../AgentsClientSDK_static/MSAL.xcframework; sourceTree = "<group>"; };
+		0FC376132EEF2D7D00F60F6C /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		0FC376142EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = MicrosoftCognitiveServicesSpeech.xcframework; sourceTree = "<group>"; };
+		0FC376152EEF2D7D00F60F6C /* REDIST.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = REDIST.txt; sourceTree = "<group>"; };
+		0FC376162EEF2D7D00F60F6C /* ThirdPartyNotices.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ThirdPartyNotices.md; sourceTree = "<group>"; };
+		0FC376382EEF45A000F60F6C /* AgentsClientSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = AgentsClientSDK.xcframework; path = ../../../../../../AgentsClientSDK_static/Latest/AgentsClientSDK.xcframework; sourceTree = "<group>"; };
+		0FC3763D2EEF45D100F60F6C /* MSAL.xcframework */ = {isa = PBXFileReference; expectedSignature = "AppleDeveloperProgram:UBF8T346G9:Microsoft Corporation"; lastKnownFileType = wrapper.xcframework; name = MSAL.xcframework; path = ../../../../../../AgentsClientSDK_static/MSAL.xcframework; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		0FC376222EEF2E7F00F60F6C /* Exceptions for "TextWithAdaptiveCardClientApp" folder in "Compile Sources" phase from "TextWithAdaptiveCardClientApp" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = 0FC375CA2EEF18B400F60F6C /* Sources */;
+			membershipExceptions = (
+				appsettings.json,
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		0FC375D02EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				0FC376222EEF2E7F00F60F6C /* Exceptions for "TextWithAdaptiveCardClientApp" folder in "Compile Sources" phase from "TextWithAdaptiveCardClientApp" target */,
+			);
+			path = TextWithAdaptiveCardClientApp;
+			sourceTree = "<group>";
+		};
+		0FC375DE2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TextWithAdaptiveCardClientAppTests;
+			sourceTree = "<group>";
+		};
+		0FC375E82EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TextWithAdaptiveCardClientAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0FC375CB2EEF18B400F60F6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FC3763E2EEF45D100F60F6C /* MSAL.xcframework in Frameworks */,
+				0FC376392EEF45A000F60F6C /* AgentsClientSDK.xcframework in Frameworks */,
+				0FC3763B2EEF45A600F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375D82EEF18B800F60F6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375E22EEF18B800F60F6C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0FC375C52EEF18B400F60F6C = {
+			isa = PBXGroup;
+			children = (
+				0FC375D02EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */,
+				0FC375DE2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests */,
+				0FC375E82EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests */,
+				0FC375F82EEF248500F60F6C /* Frameworks */,
+				0FC375CF2EEF18B400F60F6C /* Products */,
+				0FC376172EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech-XCFramework-1.47.0 */,
+			);
+			sourceTree = "<group>";
+		};
+		0FC375CF2EEF18B400F60F6C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0FC375CE2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp.app */,
+				0FC375DB2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests.xctest */,
+				0FC375E52EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0FC375F82EEF248500F60F6C /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0FC3763D2EEF45D100F60F6C /* MSAL.xcframework */,
+				0FC376382EEF45A000F60F6C /* AgentsClientSDK.xcframework */,
+				0FC3760B2EEF2D0000F60F6C /* MSAL.xcframework */,
+				0FC375F92EEF248500F60F6C /* AgentsClientSDK.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0FC376172EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech-XCFramework-1.47.0 */ = {
+			isa = PBXGroup;
+			children = (
+				0FC376132EEF2D7D00F60F6C /* LICENSE.md */,
+				0FC376142EEF2D7D00F60F6C /* MicrosoftCognitiveServicesSpeech.xcframework */,
+				0FC376152EEF2D7D00F60F6C /* REDIST.txt */,
+				0FC376162EEF2D7D00F60F6C /* ThirdPartyNotices.md */,
+			);
+			path = "MicrosoftCognitiveServicesSpeech-XCFramework-1.47.0";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0FC375CD2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FC375EF2EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientApp" */;
+			buildPhases = (
+				0FC375CA2EEF18B400F60F6C /* Sources */,
+				0FC375CB2EEF18B400F60F6C /* Frameworks */,
+				0FC375CC2EEF18B400F60F6C /* Resources */,
+				0FC376052EEF2CA400F60F6C /* Embed Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				0FC375D02EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */,
+			);
+			name = TextWithAdaptiveCardClientApp;
+			packageProductDependencies = (
+			);
+			productName = TextWithAdaptiveCardClientApp;
+			productReference = 0FC375CE2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		0FC375DA2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FC375F22EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientAppTests" */;
+			buildPhases = (
+				0FC375D72EEF18B800F60F6C /* Sources */,
+				0FC375D82EEF18B800F60F6C /* Frameworks */,
+				0FC375D92EEF18B800F60F6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0FC375DD2EEF18B800F60F6C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0FC375DE2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests */,
+			);
+			name = TextWithAdaptiveCardClientAppTests;
+			packageProductDependencies = (
+			);
+			productName = TextWithAdaptiveCardClientAppTests;
+			productReference = 0FC375DB2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		0FC375E42EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0FC375F52EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientAppUITests" */;
+			buildPhases = (
+				0FC375E12EEF18B800F60F6C /* Sources */,
+				0FC375E22EEF18B800F60F6C /* Frameworks */,
+				0FC375E32EEF18B800F60F6C /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0FC375E72EEF18B800F60F6C /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				0FC375E82EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests */,
+			);
+			name = TextWithAdaptiveCardClientAppUITests;
+			packageProductDependencies = (
+			);
+			productName = TextWithAdaptiveCardClientAppUITests;
+			productReference = 0FC375E52EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0FC375C62EEF18B400F60F6C /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2600;
+				LastUpgradeCheck = 2600;
+				TargetAttributes = {
+					0FC375CD2EEF18B400F60F6C = {
+						CreatedOnToolsVersion = 26.0.1;
+					};
+					0FC375DA2EEF18B800F60F6C = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 0FC375CD2EEF18B400F60F6C;
+					};
+					0FC375E42EEF18B800F60F6C = {
+						CreatedOnToolsVersion = 26.0.1;
+						TestTargetID = 0FC375CD2EEF18B400F60F6C;
+					};
+				};
+			};
+			buildConfigurationList = 0FC375C92EEF18B400F60F6C /* Build configuration list for PBXProject "TextWithAdaptiveCardClientApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 0FC375C52EEF18B400F60F6C;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 0FC375CF2EEF18B400F60F6C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0FC375CD2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */,
+				0FC375DA2EEF18B800F60F6C /* TextWithAdaptiveCardClientAppTests */,
+				0FC375E42EEF18B800F60F6C /* TextWithAdaptiveCardClientAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0FC375CC2EEF18B400F60F6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0FC376192EEF2D7D00F60F6C /* ThirdPartyNotices.md in Resources */,
+				0FC3761A2EEF2D7D00F60F6C /* LICENSE.md in Resources */,
+				0FC3761B2EEF2D7D00F60F6C /* REDIST.txt in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375D92EEF18B800F60F6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375E32EEF18B800F60F6C /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0FC375CA2EEF18B400F60F6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375D72EEF18B800F60F6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		0FC375E12EEF18B800F60F6C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		0FC375DD2EEF18B800F60F6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0FC375CD2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */;
+			targetProxy = 0FC375DC2EEF18B800F60F6C /* PBXContainerItemProxy */;
+		};
+		0FC375E72EEF18B800F60F6C /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0FC375CD2EEF18B400F60F6C /* TextWithAdaptiveCardClientApp */;
+			targetProxy = 0FC375E62EEF18B800F60F6C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0FC375ED2EEF18B800F60F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		0FC375EE2EEF18B800F60F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		0FC375F02EEF18B800F60F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		0FC375F12EEF18B800F60F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		0FC375F32EEF18B800F60F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextWithAdaptiveCardClientApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextWithAdaptiveCardClientApp";
+			};
+			name = Debug;
+		};
+		0FC375F42EEF18B800F60F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TextWithAdaptiveCardClientApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TextWithAdaptiveCardClientApp";
+			};
+			name = Release;
+		};
+		0FC375F62EEF18B800F60F6C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TextWithAdaptiveCardClientApp;
+			};
+			name = Debug;
+		};
+		0FC375F72EEF18B800F60F6C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = te.TextWithAdaptiveCardClientAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = TextWithAdaptiveCardClientApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0FC375C92EEF18B400F60F6C /* Build configuration list for PBXProject "TextWithAdaptiveCardClientApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FC375ED2EEF18B800F60F6C /* Debug */,
+				0FC375EE2EEF18B800F60F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FC375EF2EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FC375F02EEF18B800F60F6C /* Debug */,
+				0FC375F12EEF18B800F60F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FC375F22EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FC375F32EEF18B800F60F6C /* Debug */,
+				0FC375F42EEF18B800F60F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0FC375F52EEF18B800F60F6C /* Build configuration list for PBXNativeTarget "TextWithAdaptiveCardClientAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0FC375F62EEF18B800F60F6C /* Debug */,
+				0FC375F72EEF18B800F60F6C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0FC375C62EEF18B400F60F6C /* Project object */;
+}
