@@ -15,16 +15,11 @@ struct MainContent: View {
     var body: some View {
         ZStack(alignment: .topLeading) {
             // Main content
-            VStack(spacing: 20) {
-                Text("Agents Client SDK Sample App - Text with Adaptive Card")
-                    .font(.title)
-                    .multilineTextAlignment(.center)
-                    .padding()
-                
-                Spacer()
-            }
-            .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color(.systemBackground))
+            // Background image
+            Image("DemoApp")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
             
             // Chat component overlay
             if client.isInitialized {
@@ -35,6 +30,6 @@ struct MainContent: View {
                 )
             }
         }
-        .ignoresSafeArea(.keyboard)
+        .ignoresSafeArea()
     }
 }

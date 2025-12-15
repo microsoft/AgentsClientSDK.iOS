@@ -520,7 +520,7 @@ public enum ChatPosition {
     var buttonPadding: EdgeInsets {
         switch self {
         case .bottomRight:
-            return EdgeInsets(top: 0, leading: 0, bottom: 50, trailing: 20)
+            return EdgeInsets(top: 0, leading: 0, bottom: 120, trailing: 20)
         case .bottomLeft:
             return EdgeInsets(top: 0, leading: 20, bottom: 50, trailing: 0)
         case .topRight:
