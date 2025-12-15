@@ -13,21 +13,28 @@ struct MainContent: View {
     @Binding var showChat: Bool
     
     var body: some View {
-        ZStack {
-            VStack {
-                Image(systemName: "globe")
-                    .imageScale(.large)
-                    .foregroundStyle(.tint)
-                Text("Hello, world!")
+        ZStack(alignment: .topLeading) {
+            // Main content
+            VStack(spacing: 20) {
+                Text("Agents Client SDK Sample App - Text with Adaptive Card")
+                    .font(.title)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                
+                Spacer()
             }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .background(Color(.systemBackground))
             
+            // Chat component overlay
             if client.isInitialized {
                 PluggableChatComponent(
                     client: client,
                     isPresented: $showChat,
-                    appearance: .modern
+                    appearance: .modern,
                 )
             }
         }
+        .ignoresSafeArea(.keyboard)
     }
 }

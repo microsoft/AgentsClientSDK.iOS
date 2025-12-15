@@ -2,7 +2,7 @@
 //  PluggableChatComponent.swift
 //  sampleApp
 //
-//  Created on 14/12/25.
+//  Created by Prachi Pachankar on 14/12/25.
 //
 
 import SwiftUI
@@ -96,6 +96,8 @@ public struct PluggableChatComponent: View {
         .background(appearance.backgroundColor)
         .cornerRadius(customization.cornerRadius)
         .shadow(color: .black.opacity(0.2), radius: 10, x: 0, y: 5)
+        .padding(.trailing, 25)
+        .padding(.top, 10)
         .position(windowPosition)
         .animation(.easeOut(duration: 0.3), value: keyboardManager.keyboardHeight)
     }
@@ -659,7 +661,7 @@ public struct ChatCustomization {
         width: UIScreen.main.bounds.width * 0.9,
         height: UIScreen.main.bounds.height * 0.65,
         cornerRadius: 16,
-        overlayOpacity: 0.3,
+        overlayOpacity: 0.0,
         fabSize: 64,
         fabIcon: "message.fill",
         showFloatingButton: true,
