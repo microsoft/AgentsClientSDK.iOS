@@ -252,40 +252,7 @@ struct ContentView: View, IAuthenticationUI {
 
 ### 5. Chat Component Implementation (PluggableChatComponent.swift)
 
-Created a fully-featured, pluggable chat component with:
-
-#### Key Features
-
-1. **Flexible Positioning**: Bottom-right, bottom-left, top-right, top-left, or center
-2. **Multiple Appearance Themes**: Modern, minimal, vibrant, or custom
-3. **Customization Options**: Width, height, colors, bot name, etc.
-4. **Floating Action Button**: Toggle chat visibility
-5. **Message Types Support**:
-   - Text messages
-   - Images (with AsyncImage)
-   - Adaptive Cards (via UIViewControllerRepresentable)
-   - Suggested actions/quick replies
-
-#### Component Structure
-
-```swift
-public struct PluggableChatComponent: View {
-    @ObservedObject public var client: ClientSDK
-    @Binding public var isPresented: Bool
-    
-    public var position: ChatPosition
-    public var appearance: ChatAppearance
-    public var customization: ChatCustomization
-}
-```
-
-#### Sub-Components
-
-1. **MessagesView**: Displays chat history with scroll-to-bottom functionality
-2. **MessageBubbleView**: Renders individual messages with proper styling
-3. **TypingIndicatorView**: Animated typing indicator for bot responses
-4. **KeyboardManager**: Handles keyboard appearance and adjusts chat height
-5. **AdaptiveCardViewRepresentable**: Wraps UIKit adaptive card views
+Created a fully-featured, pluggable chat component with: Please refer samples/TextWithAdaptiveCardClientApp/TextWithAdaptiveCardClientApp/PluggableChatComponent.swift
 
 #### Usage Example
 
@@ -298,6 +265,7 @@ PluggableChatComponent(
     customization: .default
 )
 ```
+For more details check samples/TextWithAdaptiveCardClientApp/PLUGGABLE_CHAT_README.md 
 
 ### 6. State Management
 
@@ -405,37 +373,6 @@ Alert handling for critical errors:
 ```
 
 ## Configuration Options
-
-### ChatPosition
-
-- `.bottomRight` - Bottom right corner (default)
-- `.bottomLeft` - Bottom left corner
-- `.topRight` - Top right corner
-- `.topLeft` - Top left corner
-- `.center` - Center of screen
-
-### ChatAppearance
-
-- `.modern` - Blue and purple gradient theme
-- `.minimal` - Grayscale theme
-- `.vibrant` - Pink and orange gradient theme
-- `.custom(primary: Color, secondary: Color, background: Color)` - Custom colors
-
-### ChatCustomization
-
-```swift
-ChatCustomization(
-    width: CGFloat,              // Chat window width
-    height: CGFloat,             // Chat window height
-    cornerRadius: CGFloat,       // Corner radius for chat window
-    overlayOpacity: Double,      // Background overlay opacity
-    fabSize: CGFloat,            // Floating action button size
-    fabIcon: String,             // SF Symbol name for FAB
-    showFloatingButton: Bool,    // Show/hide FAB
-    botName: String,             // Display name for bot
-    inputPlaceholder: String     // Placeholder text for input field
-)
-```
 
 ## Testing
 
