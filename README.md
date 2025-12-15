@@ -52,17 +52,17 @@ AgentsClientSDK.xcframework/
 
 ### 1. Project Setup
 
-Created a new SwiftUI iOS project named "TextWithAdaptiveCardClientApp" with the following structure:
-- `TextWithAdaptiveCardClientAppApp.swift` - Main app entry point
+Create a new SwiftUI iOS project with the following structure:
+- `YourAppApp.swift` - Main app entry point
 - `ContentView.swift` - Main view controller with SDK initialization
-- `PluggableChatComponent.swift` - Reusable chat UI component
+- `PluggableChatComponent.swift` - Reusable chat UI component (optional)
 - `appsettings.json` - Configuration file for SDK settings
 
 ### 2. Framework Integration
 
-#### Added Required Frameworks
+#### Add Required Frameworks
 
-Added the following frameworks to the Xcode project:
+Add the following frameworks to your Xcode project:
 
 1. **AgentsClientSDK.xcframework**
    - Source: [https://github.com/microsoft/AgentsClientSDK.iOS/releases](https://github.com/microsoft/AgentsClientSDK.iOS/releases)
@@ -86,15 +86,15 @@ Added the following frameworks to the Xcode project:
 
 #### Project Configuration
 
-Updated `project.pbxproj` to include:
-- Framework search paths
-- Embed Frameworks build phase
-- Framework references with proper code signing attributes
-- Resource files (LICENSE.md, ThirdPartyNotices.md, REDIST.txt)
+In Xcode, configure your project to:
+- Set framework search paths to locate the XCFrameworks
+- Add an "Embed Frameworks" build phase
+- Ensure frameworks are properly code signed
+- Include resource files (LICENSE.md, ThirdPartyNotices.md, REDIST.txt) if using Speech SDK
 
 ### 3. Configuration File Setup
 
-Created `appsettings.json` with the following structure:
+Create an `appsettings.json` file in your project with the following structure:
 
 ```json
 {
@@ -123,11 +123,27 @@ Created `appsettings.json` with the following structure:
 }
 ```
 
-**Note**: The `appsettings.json` file is excluded from the compile sources build phase and is added as a resource bundle.
+**Important**: Ensure the `appsettings.json` file is added to your app bundle as a resource (not in compile sources).
 
-### 4. SDK Initialization (ContentView.swift)
+### 4. Initialize SDK on App Launch
 
-#### Implemented IAuthenticationUI Protocol
+In your `ContentView.swift`, initialize the SDK when the view appears:
+
+```swift
+var body: some View {
+    ZStack {
+        // Your main content
+    }
+    .onAppear {
+        self.appSettings = loadAppSettings()
+        initializeSDK()
+    }
+}
+```
+
+### 5. Implement IAuthenticationUI Protocol
+
+Your ContentView must implement the `IAuthenticationUI` protocol
 
 ```swift
 struct ContentView: View, IAuthenticationUI {
@@ -227,7 +243,7 @@ struct ContentView: View, IAuthenticationUI {
         }
    }
    ```
-4. **Initialize SDK**:
+4. **Invoke initialize SDK**:
    ```swift
    .onAppear {
             self.appSettings = loadAppSettings()
@@ -250,11 +266,14 @@ struct ContentView: View, IAuthenticationUI {
    }
    ```
 
-### 5. Chat Component Implementation (PluggableChatComponent.swift)
+### 6. Integrate Chat UI Component (Optional)
 
-Created a fully-featured, pluggable chat component with: Please refer samples/TextWithAdaptiveCardClientApp/TextWithAdaptiveCardClientApp/PluggableChatComponent.swift
+You can use the provided `PluggableChatComponent` - a reusable chat UI component that integrates into your application with minimal setup.
 
-#### Usage Example
+**Reference Implementation**: See the complete sample at  
+`samples/TextWithAdaptiveCardClientApp/TextWithAdaptiveCardClientApp/PluggableChatComponent.swift`
+
+#### Usage
 
 ```swift
 PluggableChatComponent(
@@ -322,31 +341,11 @@ ForEach(actions, id: \.self) { actionTitle in
 }
 ```
 
-### 8. UI/UX Features
+### 8. Handle SDK Errors
 
-#### Keyboard Management
+Implement proper error handling to catch SDK initialization and runtime errors:
 
-- Auto-adjusts chat window height when keyboard appears
-- Smooth animations for keyboard transitions
-- Maintains scroll position and visibility
-
-#### Animations
-
-- Slide-in/slide-out transitions for chat window
-- Fade animations for overlay
-- Smooth scroll animations for new messages
-- Typing indicator with pulsing animation
-
-#### Adaptive Layouts
-
-- Responsive to screen sizes
-- Dynamic positioning based on configuration
-- Support for safe areas and notches
-
-### 9. Error Handling
-
-Implemented comprehensive error handling:
-
+**Handle SDK-specific errors:**
 ```swift
 do {
     self.client = try await AgentsClientSdk.shared.initSDK(
@@ -354,14 +353,15 @@ do {
         appSettings: appSettings
     )
 } catch let error as SDKError {
+    // Handle SDK-specific errors with error code and description
     showToast("\(error.errorCode): \(error.localizedDescription)")
 } catch {
+    // Handle general initialization errors
     showToast("Initialization failed: \(error.localizedDescription)")
 }
 ```
 
-Alert handling for critical errors:
-
+**Display critical errors to users:**
 ```swift
 .alert("Error", isPresented: $showErrorAlert) {
     Button("Dismiss") {
@@ -371,6 +371,8 @@ Alert handling for critical errors:
     Text(errorMessage)
 }
 ```
+
+**Best Practice:** Always provide user-friendly error messages and handle both `SDKError` and general exceptions appropriately.
 
 ## Configuration Options
 
@@ -444,8 +446,6 @@ Optional speech capabilities:
 ### Common Issues
 
 1. **Bot communication issues**: Verify network connectivity and app settings.
-
-
 
 Thats the essence of it.
 The TextClientApp in samples folder of this repository provides a complete implementation. Do
