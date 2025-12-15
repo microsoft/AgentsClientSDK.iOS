@@ -145,30 +145,64 @@ struct ContentView: View, IAuthenticationUI {
 
 1. **Load Configuration**:
    ```swift
-   private func loadAppSettings() -> AppSettings? {
-       guard let url = Bundle.main.url(
-           forResource: "appsettings",
-           withExtension: "json"
-       ) else { return nil }
-       
-       let data = try Data(contentsOf: url)
-       return try JSONDecoder().decode(AppSettings.self, from: data)
-   }
+    private func loadAppSettings() -> AppSettings? {
+        guard
+            let url = Bundle.main.url(
+                forResource: "appsettings",
+                withExtension: "json"
+            )
+        else {
+            print("Could not find appsettings.json file in bundle")
+            return nil
+        }
+
+        do {
+            let data = try Data(contentsOf: url)
+            let appSettings = try JSONDecoder().decode(
+                AppSettings.self,
+                from: data
+            )
+            return appSettings
+        } catch {
+            print("Error loading or parsing appsettings.json: \(error)")
+            return nil
+        }
+    }
    ```
 
 2. **Initialize SDK**:
    ```swift
    private func initializeSDK() {
-       Task {
-           do {
-               self.client = try await AgentsClientSdk.shared.initSDK(
-                   authenticationDelegate: self,
-                   appSettings: appSettings
-               )
-           } catch let error as SDKError {
-               // Handle SDK-specific errors
-           }
-       }
+       guard let appSettings = self.appSettings else { return }
+        // Check if SDK is already initialized
+        if !AgentsClientSdk.shared.isInitialized {
+            Task {
+                do {
+                    self.client = try await AgentsClientSdk.shared.initSDK(
+                        authenticationDelegate: self,
+                        appSettings: appSettings
+                    )
+                    // If client is still nil after initialization, try to get it from shared SDK
+                    if self.client == nil {
+                        self.client = AgentsClientSdk.shared.client
+                    }
+                } catch let error as SDKError {
+                    let errorMsg =
+                        "\(error.errorCode): \(error.localizedDescription)"
+                    print("ContentView Error: \(errorMsg)")
+                    await MainActor.run {
+                        print(errorMsg)
+                    }
+                } catch {
+                    print("ContentView Error: \(error)")
+                    await MainActor.run {
+                        print(
+                            "Initialization failed: \(error.localizedDescription)"
+                        )
+                    }
+                }
+            }
+        }
    }
    ```
 
@@ -176,12 +210,32 @@ struct ContentView: View, IAuthenticationUI {
    ```swift
    private func waitforInitialization() async {
        while self.client?.isInitialized != true {
-           try? await Task.sleep(nanoseconds: 100_000_000)
-       }
+            try? await Task.sleep(nanoseconds: 100_000_000)  // 100ms
+
+            // Safety check to prevent infinite loop
+            if client == nil {
+                print("Client became nil, stopping wait loop")
+                break
+            }
+        }
+
+        // Update the local state when initialization is complete
+        if client?.isInitialized == true {
+            await MainActor.run {
+                self.isInitialized = true
+            }
+        }
    }
    ```
+4. **Initialize SDK**:
+   ```swift
+   .onAppear {
+            self.appSettings = loadAppSettings()
+            initializeSDK()
+        }
+   ```
 
-4. **Monitor Initialization State**:
+5. **Monitor Initialization State**:
    ```swift
    .onChange(of: client?.isInitialized) { oldValue, newValue in
        switch newValue {
