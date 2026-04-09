@@ -326,7 +326,8 @@ private struct MessagesView: View {
 private struct MessageBubbleView: View {
     let message: AgentsClientSDK.ChatMessage
     @ObservedObject var client: ClientSDK
-    
+    /// Measured height of each adaptive card, keyed by message ID.
+       @State private var cardHeights: [UUID: CGFloat] = [:]
     var body: some View {
         HStack {
             if message.sender == "User" { Spacer() }
@@ -339,11 +340,17 @@ private struct MessageBubbleView: View {
                 
                 // Adaptive Card rendering
                 if let customView = message.customView {
-                    AdaptiveCardViewRepresentable(customView: customView)
-                        .frame(maxWidth: 280, idealHeight: 300)
-                        .cornerRadius(12)
-                        .shadow(color: .black.opacity(0.15), radius: 6, x: 0, y: 3)
-                        .padding(.bottom, 2)
+                    AdaptiveCardViewRepresentable(
+                                                            customView: customView,
+                                                            contentHeight: Binding(
+                                                                get: { cardHeights[message.id, default: 1] },
+                                                                set: { cardHeights[message.id] = $0 }
+                                                            )
+                                                        )
+                                                        .frame(width: 335, height: cardHeights[message.id, default: 1])
+                                                        .cornerRadius(12)
+                                                        .shadow(radius: 2)
+                                                        .padding(.bottom, 2)
                 }
                 // Image rendering
                 else if let imageUrl = message.imageUrl {
@@ -723,38 +730,58 @@ private class KeyboardManager: ObservableObject {
 // MARK: - Adaptive Card View Representable
 private struct AdaptiveCardViewRepresentable: UIViewControllerRepresentable {
     let customView: UIView
-    
-    func makeUIViewController(context: Context) -> UIViewController {
-        let controller = UIViewController()
-        controller.view.backgroundColor = .clear
-        controller.view.autoresizingMask = [.flexibleHeight]
-        controller.view.addSubview(customView)
+    /// Written back after the first real layout pass so the caller can size the frame correctly.
+    @Binding var contentHeight: CGFloat
+
+    func makeUIViewController(context: Context) -> HostViewController {
+        let vc = HostViewController(onHeightChanged: { h in
+            guard h > 0, h != contentHeight else { return }
+            contentHeight = h
+        })
+        vc.view.backgroundColor = .clear
+        vc.view.addSubview(customView)
         customView.translatesAutoresizingMaskIntoConstraints = false
-        
+
+        // Pin leading/trailing/top. No bottom pin — the card's own content
+        // constraints determine its height, which we read in viewDidLayoutSubviews.
         NSLayoutConstraint.activate([
-            customView.topAnchor.constraint(equalTo: controller.view.topAnchor),
-            customView.leadingAnchor.constraint(equalTo: controller.view.leadingAnchor),
-            customView.trailingAnchor.constraint(equalTo: controller.view.trailingAnchor),
-            customView.bottomAnchor.constraint(equalTo: controller.view.bottomAnchor)
+            customView.topAnchor.constraint(equalTo: vc.view.topAnchor),
+            customView.leadingAnchor.constraint(equalTo: vc.view.leadingAnchor),
+            customView.trailingAnchor.constraint(equalTo: vc.view.trailingAnchor),
         ])
-        
-        return controller
+
+        return vc
     }
-    
-    func makeCoordinator() -> Coordinator {
-        Coordinator()
+
+    func updateUIViewController(_ uiViewController: HostViewController, context: Context) {
+        // No-op: height is reported via the callback in viewDidLayoutSubviews.
     }
-    
-    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
-        // No-op
-    }
-    
-    static func dismantleUIViewController(_ uiViewController: UIViewController, coordinator: Coordinator) {
-        // No-op
-    }
-    
-    class Coordinator {
-        // Coordinator for handling adaptive card interactions if needed
+
+    // MARK: - Host view controller
+
+    final class HostViewController: UIViewController {
+        private let onHeightChanged: (CGFloat) -> Void
+
+        init(onHeightChanged: @escaping (CGFloat) -> Void) {
+            self.onHeightChanged = onHeightChanged
+            super.init(nibName: nil, bundle: nil)
+        }
+
+        required init?(coder: NSCoder) { fatalError() }
+
+        override func viewDidLayoutSubviews() {
+            super.viewDidLayoutSubviews()
+            guard let card = view.subviews.first else { return }
+            // Force the card to size itself at the available width before reading its height.
+            card.setNeedsLayout()
+            card.layoutIfNeeded()
+            let h = card.frame.height
+            guard h > 0 else { return }
+            // Dispatch to avoid mutating SwiftUI state during a layout pass.
+            DispatchQueue.main.async { [weak self] in
+                self?.onHeightChanged(h)
+            }
+        }
     }
 }
 
